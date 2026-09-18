@@ -30,6 +30,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .brand-symbol>span{color:var(--yellow)}
 .brand-name{color:#05070a;letter-spacing:-.025em}
 .brand small{color:#526170;letter-spacing:.095em}
+.brand-logo{width:62px;height:62px;object-fit:cover;border-radius:8px;border:1px solid #c7d5df;box-shadow:0 5px 16px #07111d1c;flex:0 0 auto}
 .desktop-nav a{position:relative;color:#242b33}
 .desktop-nav a:hover{color:var(--blue-dark)}
 .desktop-nav a:after{content:'';position:absolute;left:0;right:100%;bottom:-6px;height:2px;background:var(--blue);transition:right .2s}
@@ -125,6 +126,7 @@ footer{max-width:none;background:#05070a;color:#fff;border:0;margin-top:30px;pad
 footer .brand-symbol{background:#0e1720}
 footer .brand-name,footer .text-link{color:#fff}
 footer .brand small{color:#aab7c3}
+footer .brand-logo{width:72px;height:72px;border-color:#2f4252;box-shadow:0 7px 20px #0007}
 .footer-top>p{color:var(--blue);font-weight:800;text-transform:uppercase}
 .footer-bottom{color:#a7b4c0;border-color:#293541}
 .mobile-bottom{background:#05070af2;border-color:#273441;color:#fff}
@@ -139,7 +141,7 @@ dialog pre{background:#edf5fa}
 @media(max-width:1260px){.header-contact{display:none}.trust-strip{margin-left:24px;margin-right:24px}.process-section{margin-left:28px;margin-right:28px}}
 @media(max-width:960px){.header-contact{display:none}.process-section{padding:55px 38px}.process-intro{gap:20px 40px}.process-grid li{display:block}.process-grid li>span{display:block;margin-bottom:12px}.trust-strip>div+div{border-left:0}}
 @media(max-width:700px){
- .site-header{background:#05070a;color:#fff;padding-top:14px;padding-bottom:14px}.site-header .brand-symbol{background:#101a24}.site-header .brand-name{color:#fff}.site-header .brand small{color:#aab6c2}.menu-button span{background:#fff}.mobile-nav{top:72px;background:#0b131c;border-color:#273542;box-shadow:0 18px 45px #0009}.mobile-nav a{color:#fff;border-bottom:1px solid #24313d}.mobile-nav a:last-child{border-bottom:0;color:var(--blue)}
+ .site-header{background:#05070a;color:#fff;padding-top:10px;padding-bottom:10px}.site-header .brand-symbol{background:#101a24}.site-header .brand-name{color:#fff}.site-header .brand small{color:#aab6c2}.site-header .brand-logo{width:52px;height:52px;border-color:#334858;box-shadow:none}.menu-button span{background:#fff}.mobile-nav{top:72px;background:#0b131c;border-color:#273542;box-shadow:0 18px 45px #0009}.mobile-nav a{color:#fff;border-bottom:1px solid #24313d}.mobile-nav a:last-child{border-bottom:0;color:var(--blue)}
  .hero{margin:0;border-radius:0;border-left:0;border-right:0}.hero:before{width:100%;height:5px}.hero-copy{padding-top:45px}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hero-actions .button{width:100%;padding-left:13px;padding-right:13px}.hero-actions .text-link{grid-column:1/3;width:max-content;margin-top:5px}.hero-visual{height:375px}
  .trust-strip{margin:12px 0 0;border-radius:0;padding:21px 18px;gap:15px 8px}.trust-strip>div{font-size:11px;justify-content:flex-start}
  .services{padding-top:60px}.service-card{padding-top:31px}.service-card ul{grid-template-columns:1fr}.service-number{font-size:11px}
