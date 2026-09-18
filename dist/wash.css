@@ -2,3 +2,23 @@
 @media(max-width:960px){.wash-launch{top:19px;left:19px;gap:6px;padding-right:12px}.wash-launch b{font-size:16px}.wash-launch small{font-size:11px}.wash-launch-mascot{width:52px;height:57px}.wash-launch-arrow{font-size:23px;margin-left:5px}}
 @media(max-width:700px){.wash-launch{top:18px;left:18px}.wash-launch small{font-size:12px}.wash-launch b{font-size:17px}.wash-launch-mascot{width:57px;height:63px}.wash-dialog{width:calc(100vw - 20px);max-height:94dvh;border-radius:14px}.wash-heading{padding:16px 18px;gap:12px}.wash-heading .eyebrow{font-size:10px}.wash-heading h2{font-size:22px}.wash-heading button{width:38px;height:38px}.wash-bottom{padding:16px 18px}.wash-status-row p{font-size:14px;max-width:250px}.wash-status-row output{font-size:20px}.wash-controls{gap:16px;margin-top:15px}.wash-controls .button{font-size:14px;padding:12px 18px;min-width:117px}.wash-controls>button:not(.button){font-size:12px}.wash-controls a{width:100%;margin-left:0;margin-top:0;font-size:14px}.wash-disclaimer{font-size:11px!important;margin-top:11px}.wash-scene-label{top:10px;left:12px;font-size:8px;padding:6px 8px;letter-spacing:.04em}.wash-scene-label span{margin-left:5px}}
 @media(prefers-reduced-motion:reduce){.wash-launch,.wash-meter progress::-webkit-progress-value{transition:none}.wash-dialog::backdrop{backdrop-filter:none}}
+
+/* Match the site-wide Lakeland Elite blue / black identity. */
+.wash-launch{background:#f7fbffee;border-color:#fff;box-shadow:0 8px 35px #00152533;color:#05070a}
+.wash-launch:hover{background:#dff5ff}
+.wash-launch small{color:#536474}
+.wash-dialog{background:#05070a;color:#f4f8fc;box-shadow:0 28px 100px #000b}
+.wash-dialog::backdrop{background:#02060bd9}
+.wash-heading .eyebrow{color:var(--yellow)}
+.wash-heading button{border-color:#405160}
+.wash-stage,.wash-loading{background:#0b1722}
+.wash-scene-label{color:#07121b;background:#f6fbffe8;border-left:3px solid var(--yellow)}
+.wash-scene-label span{color:#3c6682}
+.wash-meter,.wash-meter progress,.wash-meter progress::-webkit-progress-bar{background:#253746}
+.wash-meter progress,.wash-meter progress::-webkit-progress-value,.wash-meter progress::-moz-progress-bar{color:var(--blue);background:var(--blue)}
+.wash-status-row p{color:#f3f8fc}
+.wash-status-row output,.wash-controls a{color:var(--blue)}
+.wash-controls>button:not(.button){color:#c0d0dd}
+.wash-controls>button[aria-pressed=true]{color:var(--yellow)}
+.wash-disclaimer{color:#9babb8!important}
+.wash-dialog a:focus-visible,.wash-dialog button:focus-visible{outline-color:var(--blue)}
