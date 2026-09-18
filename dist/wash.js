@@ -59,7 +59,7 @@
   function init(){
     if(model)return Promise.resolve(true);if(loadingPromise)return loadingPromise;
     loading.hidden=false;retry.hidden=true;loading.querySelector('span').textContent='Elite is grabbing his gear…';
-    loadingPromise=Promise.all([image('/assets/hero.webp'),image('/assets/hero-dirty.webp'),image('/assets/elite-sprites.webp')]).then(([clean,dirty,mascot])=>{
+    loadingPromise=Promise.all([image('/assets/hero.webp'),image('/assets/hero-dirty.webp'),image('/assets/elite-sprites-white.webp')]).then(([clean,dirty,mascot])=>{
       cleanImage=clean;sprite=mascot;model=window.LEWashEngine.createModel({clean,dirty,createCanvas});
       modal.querySelectorAll('[data-wash-control]').forEach(button=>button.disabled=false);loading.hidden=true;resize();return true;
     }).catch(()=>{loadingPromise=null;loading.querySelector('span').textContent='The scene couldn’t load. Let’s try that again.';retry.hidden=false;return false;});
