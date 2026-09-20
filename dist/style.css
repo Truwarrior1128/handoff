@@ -200,8 +200,12 @@ footer .brand-logo{width:90px;height:90px;object-fit:contain;border-radius:14px;
 @media(max-width:700px){.hours-card{margin-bottom:28px}}
 
 /* Preserve the approved logo artwork; render only its pale background pure white. */
-.brand-logo{filter:url(#logo-white-background)}
+
 
 /* Owner portrait within the existing tap-to-call button. */
 .footer-contact-button>.rob-portrait{display:block;width:54px;height:54px;min-width:54px;flex:0 0 54px;border-radius:50%;overflow:hidden;border:2px solid #42bdff;background:#233c5a}
 .rob-portrait img{width:100%;height:100%;max-width:none;object-fit:cover;transform:scale(1.3);transform-origin:50% 35%}
+
+/* September 20: focused review and estimate improvements. */
+.reviews-card{max-width:1390px;margin:34px auto 0;padding:32px 40px;display:flex;justify-content:space-between;align-items:center;gap:28px;border:1px solid #ccdce7;background:#fff;border-radius:14px}.reviews-card h2{font-size:32px;margin:10px 0}.reviews-card p{color:#526273;font-size:16px}.reviews-rating{min-width:275px}.reviews-rating>div{display:flex;align-items:center;gap:14px}.reviews-rating strong{font-size:38px;line-height:1.2}.review-stars{color:#986400;letter-spacing:3px;font-size:24px}.reviews-rating small{display:block;color:#526273;font-size:13px;margin:3px 0 15px}.reviews-rating .button{font-size:14px;padding:13px 18px}.form-privacy{font-size:13px;line-height:1.6;color:#526273;text-align:center;margin-top:12px}.form-honey{display:none!important}#send-status{font-size:15px;margin-top:14px}#send-request:disabled{opacity:.65;cursor:wait}.service-options label>span{height:100%}.service-options label:last-child{grid-column:1/-1}
+@media(max-width:1450px){.reviews-card{margin-left:24px;margin-right:24px}}@media(max-width:700px){.reviews-card{display:block;margin:24px 24px 0;padding:24px}.reviews-card h2{font-size:28px}.reviews-rating{margin-top:22px;min-width:0}.reviews-rating .button{width:100%;justify-content:center}.service-options{grid-template-columns:1fr}.form-row{grid-template-columns:1fr;gap:0}}

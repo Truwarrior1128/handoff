@@ -1,6 +1,6 @@
 # Lakeland Elite landing page
 
-A dependency-free responsive landing page with service selection and an email estimate draft. Authored static output lives in `dist/`. No build step is needed.
+A responsive landing page with service selection and an estimate request form. Authored static output lives in `dist/`. No build step is needed.
 
 The quote flow validates service selection, name, and ZIP, previews an email, and opens the visitor's email application only after an explicit click. No outbound message, booking, or lead storage happens on this site. Phone and email links use the business's published contact information.
 
@@ -28,3 +28,12 @@ Validated JavaScript and local asset references, plus native-canvas controller p
 - Footer phone/email buttons use `tel:` and `mailto:` links. Google buttons use the owner-supplied share link and say “Find us on Google”; no rating or direct-reviews destination is claimed.
 - HTTPS badges describe transport encryption only, not a third-party certification. Local HTTP previews explicitly refer to HTTPS on the live site.
 - Optional local review: `npm ci`, then `npm run dev`. Vite serves the authored `dist/` unchanged; production still needs no build command. Existing Cloudflare configuration is unchanged.
+
+## September 20 audit fixes — preview only
+
+- Google review panel: 5.0 / 1 review, manually verified September 20, 2026 against the business name, website and phone in Google. The displayed verification date makes this a dated snapshot, not an automatically updated feed. Links open the observed Google review dialog.
+- Logo: exports the existing approved native SVG correction into a standalone PNG used by header, footer and favicon. No artwork redesign.
+- Service choices now explicitly include house/roof cleaning and gutter cleaning; card buttons select corresponding choices.
+- Direct delivery is prepared using FormSubmit native HTTPS POST with its default CAPTCHA, a honeypot, required reply email, and a thank-you page. No email-app launch.
+- IMPORTANT: delivery-config.js is disabled for review. It must NOT be enabled/published until the owner activates FormSubmit and a clearly marked test is received. This turn sends no activation or test emails. Preview hosts always stay in simulation mode. No live deployment was made.
+- Before launch: activate recipient, confirm an end-to-end test with multiple services/address/reply email, enable delivery for the production hostname, and obtain Rob's approval. No fees or accounts have been accepted.
