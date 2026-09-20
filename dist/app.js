@@ -7,6 +7,13 @@ const dialog = document.querySelector('#request-dialog');
 const preview = document.querySelector('#request-preview');
 let draft = '';
 let lastDialogFocus = null;
+const delivery = window.estimateDelivery || { enabled: false };
+const deliveryEnabled = delivery.enabled === true && ['lakelandelitepowerwashing.com', 'www.lakelandelitepowerwashing.com'].includes(location.hostname);
+const sendButton = document.querySelector('#send-request');
+const sendStatus = document.querySelector('#send-status');
+document.querySelector('#delivery-preview-note').hidden = deliveryEnabled;
+if (deliveryEnabled) quoteForm.action = delivery.endpoint;
+
 function selectedServices() { return serviceInputs.filter(input => input.checked).map(input => input.value); }
 function syncServices() {
   serviceInputs.forEach(input => { input.nextElementSibling.querySelector('b').textContent = input.checked ? '✓' : '+'; });
@@ -28,10 +35,13 @@ function prepareDraft() {
   const zip = String(data.get('zip') || '').trim();
   const address = String(data.get('address') || '').trim();
   const phone = String(data.get('phone') || '').trim();
+  const email = String(data.get('email') || '').trim();
   const details = String(data.get('details') || '').trim();
-  draft = `Hi Lakeland Elite,\n\nI'd like a free estimate for my property.\n\nServices: ${selectedServices().join(', ')}\nName: ${name}\nService address: ${address}\nProperty ZIP: ${zip}${phone ? `\nPhone: ${phone}` : ''}${details ? `\n\nAbout the job:\n${details}` : ''}\n\nPlease let me know what other details you need. Thank you!`;
+  draft = `Hi Lakeland Elite,\n\nI'd like a free estimate for my property.\n\nServices: ${selectedServices().join(', ')}\nName: ${name}\nEmail: ${email}\nService address: ${address}\nProperty ZIP: ${zip}${phone ? `\nPhone: ${phone}` : ''}${details ? `\n\nAbout the job:\n${details}` : ''}\n\nPlease let me know what other details you need. Thank you!`;
   preview.textContent = draft;
-  document.querySelector('#email-request').href = 'mailto:Rob@Lakelandelitepowerwashing.com?subject=' + encodeURIComponent(`Free estimate request — ${zip}`) + '&body=' + encodeURIComponent(draft);
+  sendStatus.textContent = '';
+  sendButton.disabled = false;
+  sendButton.textContent = 'Send estimate request ↗';
   document.querySelector('#copy-status').textContent = '';
   lastDialogFocus = document.activeElement;
   dialog.showModal();
@@ -53,6 +63,20 @@ quoteForm.addEventListener('submit', event => {
 });
 quoteForm.elements.namedItem('name').addEventListener('input', () => quoteForm.elements.namedItem('name').setCustomValidity(''));
 quoteForm.elements.namedItem('address').addEventListener('input', () => quoteForm.elements.namedItem('address').setCustomValidity(''));
+sendButton.addEventListener('click', () => {
+  if (!deliveryEnabled) {
+    sendStatus.textContent = 'Preview complete — nothing was sent. On the live site, this step sends your request without an email app.';
+    return;
+  }
+  if (!quoteForm.reportValidity() || !selectedServices().length) { dialog.close(); return; }
+  sendButton.disabled = true;
+  sendButton.textContent = 'Sending…';
+  sendStatus.textContent = 'Continue through the spam check to finish sending your request.';
+  document.querySelector('#submitted-services').value = selectedServices().join(', ');
+  serviceInputs.forEach(input => { input.disabled = true; });
+  HTMLFormElement.prototype.submit.call(quoteForm);
+});
+window.addEventListener('pageshow', () => { serviceInputs.forEach(input => { input.disabled = false; }); sendButton.disabled = false; sendButton.textContent = 'Send estimate request ↗'; });
 document.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => {
   if (event.target === dialog) {
@@ -92,12 +116,12 @@ if (document.modelContext?.registerTool) {
     Promise.resolve(document.modelContext.registerTool({
       name: 'stage_estimate_request', title: 'Stage an estimate request',
       description: 'Fill the visible estimate form with selected services and customer details. Does not send, book, or open an email app. The visitor reviews and sends the request themselves.',
-      inputSchema: { type: 'object', properties: { services: { type: 'array', items: { type: 'string', enum: allowedServices }, minItems: 1, uniqueItems: true }, name: { type: 'string', minLength: 1, maxLength: 100 }, address: { type: 'string', minLength: 1, maxLength: 200 }, zip: { type: 'string', pattern: '^[0-9]{5}$' }, phone: { type: 'string', maxLength: 30 }, details: { type: 'string', maxLength: 1800 } }, required: ['services', 'name', 'address', 'zip'], additionalProperties: false },
+      inputSchema: { type: 'object', properties: { services: { type: 'array', items: { type: 'string', enum: allowedServices }, minItems: 1, uniqueItems: true }, name: { type: 'string', minLength: 1, maxLength: 100 }, address: { type: 'string', minLength: 1, maxLength: 200 }, zip: { type: 'string', pattern: '^[0-9]{5}$' }, email: { type: 'string', minLength: 3, maxLength: 254 }, phone: { type: 'string', maxLength: 30 }, details: { type: 'string', maxLength: 1800 } }, required: ['services', 'name', 'address', 'zip', 'email'], additionalProperties: false },
       annotations: { readOnlyHint: false, untrustedContentHint: false },
       execute(input) {
-        if (!input || typeof input !== 'object' || Object.keys(input).some(key => !['services', 'name', 'address', 'zip', 'phone', 'details'].includes(key)) || !Array.isArray(input.services) || !input.services.length || input.services.some(service => !allowedServices.includes(service)) || new Set(input.services).size !== input.services.length || typeof input.name !== 'string' || !input.name.trim() || input.name.length > 100 || typeof input.address !== 'string' || !input.address.trim() || input.address.length > 200 || typeof input.zip !== 'string' || !/^[0-9]{5}$/.test(input.zip) || (input.phone !== undefined && (typeof input.phone !== 'string' || input.phone.length > 30)) || (input.details !== undefined && (typeof input.details !== 'string' || input.details.length > 1800))) throw new Error('Provide a valid name, service address, five-digit ZIP, and supported services.');
+        if (!input || typeof input !== 'object' || Object.keys(input).some(key => !['services', 'name', 'address', 'zip', 'email', 'phone', 'details'].includes(key)) || !Array.isArray(input.services) || !input.services.length || input.services.some(service => !allowedServices.includes(service)) || new Set(input.services).size !== input.services.length || typeof input.name !== 'string' || !input.name.trim() || input.name.length > 100 || typeof input.address !== 'string' || !input.address.trim() || input.address.length > 200 || typeof input.zip !== 'string' || !/^[0-9]{5}$/.test(input.zip) || typeof input.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email) || input.email.length > 254 || (input.phone !== undefined && (typeof input.phone !== 'string' || input.phone.length > 30)) || (input.details !== undefined && (typeof input.details !== 'string' || input.details.length > 1800))) throw new Error('Provide a valid name, email, service address, five-digit ZIP, and supported services.');
         serviceInputs.forEach(checkbox => { checkbox.checked = input.services.includes(checkbox.value); });
-        for (const key of ['name', 'address', 'zip', 'phone', 'details']) quoteForm.elements.namedItem(key).value = input[key] || '';
+        for (const key of ['name', 'address', 'zip', 'email', 'phone', 'details']) quoteForm.elements.namedItem(key).value = input[key] || '';
         quoteForm.elements.namedItem('name').setCustomValidity(''); quoteForm.elements.namedItem('address').setCustomValidity(''); syncServices();
         document.querySelector('#quote').scrollIntoView();
         return { status: 'staged', services: selectedServices(), name: quoteForm.elements.namedItem('name').value, zip: quoteForm.elements.namedItem('zip').value, sent: false };
