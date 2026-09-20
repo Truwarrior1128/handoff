@@ -1,2 +1,2 @@
-// Keep disabled until Rob activates FormSubmit and confirms a received test.
-window.estimateDelivery = Object.freeze({ enabled: false, endpoint: 'https://formsubmit.co/Rob@Lakelandelitepowerwashing.com' });
+// Rob activated FormSubmit and confirmed receipt of the delivery test on September 20, 2026.
+window.estimateDelivery = Object.freeze({ enabled: true, endpoint: 'https://formsubmit.co/Rob@Lakelandelitepowerwashing.com' });
