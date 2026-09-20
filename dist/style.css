@@ -201,3 +201,7 @@ footer .brand-logo{width:90px;height:90px;object-fit:contain;border-radius:14px;
 
 /* Preserve the approved logo artwork; render only its pale background pure white. */
 .brand-logo{filter:url(#logo-white-background)}
+
+/* Owner portrait within the existing tap-to-call button. */
+.footer-contact-button>.rob-portrait{display:block;width:54px;height:54px;min-width:54px;flex:0 0 54px;border-radius:50%;overflow:hidden;border:2px solid #42bdff;background:#233c5a}
+.rob-portrait img{width:100%;height:100%;max-width:none;object-fit:cover;transform:scale(1.3);transform-origin:50% 35%}
