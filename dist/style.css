@@ -198,3 +198,6 @@ footer .brand-logo{width:90px;height:90px;object-fit:contain;border-radius:14px;
 @media(max-width:380px){.site-header{padding-left:12px;padding-right:12px}.site-header .brand-name{font-size:13px}.site-header .brand small{font-size:7px}.site-header .brand{gap:7px}.menu-button{width:36px;padding:8px}.trust-strip>div{font-size:12px}.trust-strip{gap:8px}.google-link{gap:6px}.hours-list li{font-size:13px}.hours-card{padding:16px}footer .brand-logo{width:90px;height:90px}.footer-top .brand-name{font-size:13px}.footer-contact-button{padding:14px}}
 
 @media(max-width:700px){.hours-card{margin-bottom:28px}}
+
+/* Preserve the approved logo artwork; render only its pale background pure white. */
+.brand-logo{filter:url(#logo-white-background)}
