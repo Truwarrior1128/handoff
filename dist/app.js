@@ -59,6 +59,7 @@ quoteForm.addEventListener('submit', event => {
     quoteForm.elements.namedItem('address').reportValidity();
     return;
   }
+  window.eliteLeadTracking?.review();
   prepareDraft();
 });
 quoteForm.elements.namedItem('name').addEventListener('input', () => quoteForm.elements.namedItem('name').setCustomValidity(''));
@@ -79,6 +80,7 @@ sendButton.addEventListener('click', () => {
   sendStatus.textContent = 'Continue through the spam check to finish sending your request.';
   document.querySelector('#submitted-services').value = selectedServices().join(', ');
   serviceInputs.forEach(input => { input.disabled = true; });
+  window.eliteLeadTracking?.sendAttempt();
   HTMLFormElement.prototype.submit.call(quoteForm);
 });
 window.addEventListener('pageshow', () => { serviceInputs.forEach(input => { input.disabled = false; }); sendButton.disabled = false; sendButton.textContent = 'Send estimate request ↗'; });
