@@ -28,6 +28,11 @@ assert.deepEqual(s.events.map(e=>e[1]),['call_click','text_click','email_click',
 for(const e of s.events) assert.deepEqual(Object.keys(e[2]),['send_to']);
 assert(!JSON.stringify(s.events).includes('Rob@'));
 const pendingValue=s.storage.get('elite_estimate_pending');
+// Production hosting redirects .html to this canonical extensionless path.
+const canonicalStorage = new Map([['elite_estimate_pending', pendingValue]]);
+assert.deepEqual(setup({path:'/thank-you',token,storage:canonicalStorage}).events.map(e=>e[1]),['estimate_return']);
+assert.equal(setup({path:'/thank-you',token,storage:canonicalStorage}).events.length,0);
+assert.equal(setup({path:'/thank-you',token}).events.length,0);
 // Missing referrer reproduces the fragile old condition; token return succeeds.
 const returned=setup({path:'/thank-you.html',token,storage:s.storage});
 assert.deepEqual(returned.events.map(e=>e[1]),['estimate_return']);

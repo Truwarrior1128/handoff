@@ -44,7 +44,7 @@
     form.addEventListener('change', start);
     document.querySelectorAll('[data-select-service]').forEach(button => button.addEventListener('click', start));
   }
-  if (location.pathname === '/thank-you.html') {
+  if (['/thank-you', '/thank-you.html'].includes(location.pathname)) {
     // A matching one-time return token is a completion indicator,
     // not proof of email delivery. Consume once to prevent refresh duplicates.
     try {
