@@ -80,7 +80,7 @@ sendButton.addEventListener('click', () => {
   sendStatus.textContent = 'Continue through the spam check to finish sending your request.';
   document.querySelector('#submitted-services').value = selectedServices().join(', ');
   serviceInputs.forEach(input => { input.disabled = true; });
-  window.eliteLeadTracking?.sendAttempt();
+  window.eliteLeadTracking?.sendAttempt(quoteForm);
   HTMLFormElement.prototype.submit.call(quoteForm);
 });
 window.addEventListener('pageshow', () => { serviceInputs.forEach(input => { input.disabled = false; }); sendButton.disabled = false; sendButton.textContent = 'Send estimate request ↗'; });
