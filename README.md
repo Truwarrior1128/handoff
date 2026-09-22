@@ -37,3 +37,17 @@ Validated JavaScript and local asset references, plus native-canvas controller p
 - Direct delivery is prepared using FormSubmit native HTTPS POST with its default CAPTCHA, a honeypot, required reply email, and a thank-you page. No email-app launch.
 - IMPORTANT: delivery-config.js is disabled for review. It must NOT be enabled/published until the owner activates FormSubmit and a clearly marked test is received. This turn sends no activation or test emails. Preview hosts always stay in simulation mode. No live deployment was made.
 - Before launch: activate recipient, confirm an end-to-end test with multiple services/address/reply email, enable delivery for the production hostname, and obtain Rob's approval. No fees or accounts have been accepted.
+
+## September 22 contact analytics
+
+`dist/lead-tracking.js` adds production-only events to GA4 G-B3X9F4V599. No form field values or link destinations are included in these custom event parameters.
+
+- `call_click`, `text_click`, `email_click`: contact-link clicks, not completed communications.
+- `estimate_start`: first form input/change or service-card selection per page load.
+- `estimate_review`: valid estimate review opened.
+- `estimate_send_attempt`: validated final send, immediately before native FormSubmit POST.
+- `estimate_return`: thank-you page reached with a same-tab attempt less than an hour old and a FormSubmit referrer. Pending state is consumed once. This is a completion indicator, not proof of delivery. Missing referrers or blocked session storage cause undercounting. Do not report it as a verified lead until the actual CAPTCHA/return flow has been tested.
+
+Preview hosts send no custom events. Analytics/storage errors do not block submission. No extra Google tag is installed. Google's automatic form events may also appear; do not sum those with these custom events as separate leads.
+
+Run `node tests/lead-tracking.cjs`. After publication, verify contact events in Realtime and complete a clearly labeled test estimate through CAPTCHA. Confirm the email arrives, `estimate_send_attempt` and `estimate_return` appear once, and reloading thank-you does not add another return. Then mark selected contact events and the verified return event as key events in GA Admin > Data display > Events. Do not mark starts, reviews or send attempts as completed leads.
