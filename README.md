@@ -46,7 +46,7 @@ Validated JavaScript and local asset references, plus native-canvas controller p
 - `estimate_start`: first form input/change or service-card selection per page load.
 - `estimate_review`: valid estimate review opened.
 - `estimate_send_attempt`: validated final send, immediately before native FormSubmit POST.
-- `estimate_return`: thank-you page reached with a same-tab attempt less than an hour old and a FormSubmit referrer. Pending state is consumed once. This is a completion indicator, not proof of delivery. Missing referrers or blocked session storage cause undercounting. Do not report it as a verified lead until the actual CAPTCHA/return flow has been tested.
+- `estimate_return`: thank-you page reached with a same-tab attempt less than an hour old and a matching one-time token in the FormSubmit return URL. Pending state is consumed once. This is a completion indicator, not proof of delivery. Blocked session storage can cause undercounting. The token contains no customer data and is removed from the URL before Analytics loads. Do not report it as a verified lead until the actual CAPTCHA/return flow has been tested.
 
 Preview hosts send no custom events. Analytics/storage errors do not block submission. No extra Google tag is installed. Google's automatic form events may also appear; do not sum those with these custom events as separate leads.
 

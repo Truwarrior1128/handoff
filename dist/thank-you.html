@@ -1,4 +1,13 @@
 <!doctype html><html lang="en"><head>
+<script>
+// Capture the return marker before Analytics loads; never include it in page URLs sent to GA.
+(function () {
+  const match = /^#estimate-return=([a-f0-9-]{36})$/.exec(location.hash);
+  if (!match) return;
+  window.eliteEstimateReturnToken = match[1];
+  try { history.replaceState(history.state, '', location.pathname + location.search); } catch { /* Optional URL cleanup. */ }
+}());
+</script>
 <!-- Google Analytics: production website only. -->
 <script>
 (function () {

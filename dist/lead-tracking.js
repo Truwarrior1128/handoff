@@ -12,8 +12,15 @@
   }
   window.eliteLeadTracking = Object.freeze({
     review() { record('estimate_review'); },
-    sendAttempt() {
-      try { sessionStorage.setItem(pendingKey, String(Date.now())); } catch { /* Storage is optional. */ }
+    sendAttempt(form) {
+      try {
+        const next = form.elements.namedItem('_next');
+        const token = crypto.randomUUID();
+        const returnUrl = new URL(next.value);
+        returnUrl.hash = 'estimate-return=' + token;
+        sessionStorage.setItem(pendingKey, JSON.stringify({ token, time: Date.now() }));
+        next.value = returnUrl.href;
+      } catch { /* Storage/tracking failure must not stop the existing form flow. */ }
       record('estimate_send_attempt');
     }
   });
@@ -38,14 +45,13 @@
     document.querySelectorAll('[data-select-service]').forEach(button => button.addEventListener('click', start));
   }
   if (location.pathname === '/thank-you.html') {
-    // A recent attempt plus a FormSubmit return is a completion indicator,
+    // A matching one-time return token is a completion indicator,
     // not proof of email delivery. Consume once to prevent refresh duplicates.
     try {
-      const pending = Number(sessionStorage.getItem(pendingKey));
+      const pending = JSON.parse(sessionStorage.getItem(pendingKey));
       sessionStorage.removeItem(pendingKey);
-      const age = Date.now() - pending;
-      const fromFormSubmit = new URL(document.referrer).hostname === 'formsubmit.co';
-      if (pending > 0 && age >= 0 && age < 60 * 60 * 1000 && fromFormSubmit) record('estimate_return');
-    } catch { /* Direct visits, missing referrers and blocked storage do not count. */ }
+      const age = Date.now() - pending?.time;
+      if (typeof pending?.token === 'string' && pending.token === window.eliteEstimateReturnToken && age >= 0 && age < 60 * 60 * 1000) record('estimate_return');
+    } catch { /* Direct visits, mismatched tokens and blocked storage do not count. */ }
   }
 })();
