@@ -69,6 +69,11 @@ sendButton.addEventListener('click', () => {
     return;
   }
   if (!quoteForm.reportValidity() || !selectedServices().length) { dialog.close(); return; }
+  // Distinct subjects keep separate requests from sharing one email conversation.
+  const customerName = String(quoteForm.elements.namedItem('name').value).replace(/[\r\n]+/g, ' ').trim().slice(0, 100);
+  const requestDate = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
+  const requestId = Array.from(crypto.getRandomValues(new Uint32Array(2)), value => value.toString(16).padStart(8, '0')).join('').toUpperCase();
+  quoteForm.elements.namedItem('_subject').value = `New Estimate — ${customerName} — ${requestDate} — ${requestId}`;
   sendButton.disabled = true;
   sendButton.textContent = 'Sending…';
   sendStatus.textContent = 'Continue through the spam check to finish sending your request.';
