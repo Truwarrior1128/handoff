@@ -15,9 +15,9 @@
     const today = Date.UTC(Number(p.year), Number(p.month) - 1, Number(p.day));
     const minutes = Number(p.hour) * 60 + Number(p.minute);
     const openToday = isOpenDay(today);
-    const openNow = openToday && minutes >= 540 && minutes < 1020;
+    const openNow = openToday && minutes >= 480 && minutes < 1200;
     let nextDay = today;
-    if (!openToday || minutes >= 1020) {
+    if (!openToday || minutes >= 1200) {
       for (let i = 1; i <= 14; i++) { if (isOpenDay(today + i * DAY)) { nextDay = today + i * DAY; break; } }
     }
     const days = Array.from({ length: 14 }, (_, i) => {
@@ -25,8 +25,8 @@
       return { label: dateLabel.format(day), iso: new Date(day).toISOString().slice(0, 10), open: isOpenDay(day), today: i === 0 };
     });
     return { openNow, openToday, today, nextDay, days,
-      status: openNow ? 'Open now · Until 5 PM' : 'Closed now',
-      next: openNow ? 'Today’s hours: 9 AM–5 PM' : `Next open: ${nextDay === today ? 'today' : dateLabel.format(nextDay)} at 9 AM`
+      status: openNow ? 'Open now · Until 8 PM' : 'Closed now',
+      next: openNow ? 'Today’s hours: 8 AM–8 PM' : `Next open: ${nextDay === today ? 'today' : dateLabel.format(nextDay)} at 8 AM`
     };
   }
   if (typeof module !== 'undefined' && module.exports) module.exports = { getSchedule, isOpenDay };
@@ -38,7 +38,7 @@
       if (day.today) row.className = 'hours-today';
       const time = document.createElement('time'); time.dateTime = day.iso;
       time.textContent = `${day.today ? 'Today · ' : ''}${day.label}`;
-      const hours = document.createElement('span'); hours.textContent = day.open ? '9 AM–5 PM' : 'Closed';
+      const hours = document.createElement('span'); hours.textContent = day.open ? '8 AM–8 PM' : 'Closed';
       hours.className = day.open ? 'hours-open' : 'hours-closed';
       row.append(time, hours); list.append(row);
     }
