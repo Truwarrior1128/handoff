@@ -8,7 +8,7 @@ const preview = document.querySelector('#request-preview');
 let draft = '';
 let lastDialogFocus = null;
 const delivery = window.estimateDelivery || { enabled: false };
-const deliveryEnabled = delivery.enabled === true && ['lakelandelitepowerwashing.com', 'www.lakelandelitepowerwashing.com'].includes(location.hostname);
+const deliveryEnabled = delivery.enabled === true && delivery.provider === 'formspree' && /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+$/.test(String(delivery.endpoint || '')) && ['lakelandelitepowerwashing.com', 'www.lakelandelitepowerwashing.com'].includes(location.hostname);
 const sendButton = document.querySelector('#send-request');
 const sendStatus = document.querySelector('#send-status');
 const deliveryPaused = delivery.paused === true;
@@ -60,9 +60,9 @@ function prepareDraft() {
   draft = `Hi Lakeland Elite,\n\nI'd like a free estimate for my property.\n\nServices: ${selectedServices().join(', ')}\nName: ${name}\nEmail: ${email}\nService address: ${address}\nProperty ZIP: ${zip}${phone ? `\nPhone: ${phone}` : ''}${details ? `\n\nAbout the job:\n${details}` : ''}\n\nPlease let me know what other details you need. Thank you!`;
   preview.textContent = draft;
   sendStatus.textContent = '';
+  fallbackEmail.href = 'mailto:Rob@Lakelandelitepowerwashing.com?subject=' + encodeURIComponent('Estimate request - ' + name.replace(/[\r\n]+/g, ' ')) + '&body=' + encodeURIComponent(draft);
   fallbackEmail.hidden = !deliveryPaused;
   if (deliveryPaused) {
-    fallbackEmail.href = 'mailto:Rob@Lakelandelitepowerwashing.com?subject=' + encodeURIComponent('Estimate request - ' + name.replace(/[\r\n]+/g, ' ')) + '&body=' + encodeURIComponent(draft);
     sendStatus.textContent = 'Not sent yet. Your email app must send the message. If it does not open, use Copy request, or call/text (863) 362-4188.';
   }
   sendButton.disabled = false;
@@ -89,28 +89,66 @@ quoteForm.addEventListener('submit', event => {
 });
 quoteForm.elements.namedItem('name').addEventListener('input', () => quoteForm.elements.namedItem('name').setCustomValidity(''));
 quoteForm.elements.namedItem('address').addEventListener('input', () => quoteForm.elements.namedItem('address').setCustomValidity(''));
-sendButton.addEventListener('click', () => {
+sendButton.addEventListener('click', async () => {
   if (deliveryPaused) {
     sendStatus.textContent = 'Online sending is unavailable. Use the email option, copy your request, or call/text Rob at (863) 362-4188.';
     return;
   }
   if (!deliveryEnabled) {
-    sendStatus.textContent = 'Preview complete — nothing was sent. On the live site, this step sends your request without an email app.';
+    sendStatus.textContent = 'Online sending is not configured yet. Use the email option, copy your request, or call/text (863) 362-4188.';
+    fallbackEmail.hidden = false;
     return;
   }
   if (!quoteForm.reportValidity() || !selectedServices().length) { dialog.close(); return; }
-  // Distinct subjects keep separate requests from sharing one email conversation.
+
   const customerName = String(quoteForm.elements.namedItem('name').value).replace(/[\r\n]+/g, ' ').trim().slice(0, 100);
   const requestDate = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
   const requestId = Array.from(crypto.getRandomValues(new Uint32Array(2)), value => value.toString(16).padStart(8, '0')).join('').toUpperCase();
   quoteForm.elements.namedItem('_subject').value = `New Estimate — ${customerName} — ${requestDate} — ${requestId}`;
+  document.querySelector('#submitted-services').value = selectedServices().join(', ');
+
   sendButton.disabled = true;
   sendButton.textContent = 'Sending…';
-  sendStatus.textContent = 'Continue through the spam check to finish sending your request.';
-  document.querySelector('#submitted-services').value = selectedServices().join(', ');
-  serviceInputs.forEach(input => { input.disabled = true; });
+  sendStatus.textContent = 'Sending your estimate request securely…';
+  fallbackEmail.hidden = true;
   window.eliteLeadTracking?.sendAttempt(quoteForm);
-  HTMLFormElement.prototype.submit.call(quoteForm);
+
+  try {
+    const response = await fetch(delivery.endpoint, {
+      method: 'POST',
+      body: new FormData(quoteForm),
+      headers: { Accept: 'application/json' }
+    });
+
+    if (!response.ok) {
+      let message = '';
+      try {
+        const body = await response.json();
+        message = Array.isArray(body?.errors) ? body.errors.map(error => error?.message).filter(Boolean).join(' ') : '';
+      } catch { /* Use generic error below. */ }
+      throw new Error(message || `Form service returned ${response.status}`);
+    }
+
+    // Record a successful lead only after Formspree confirms receipt.
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'form_submit', {
+          form_id: 'quote-form',
+          form_name: 'Free estimate request',
+          send_to: 'G-B3X9F4V599'
+        });
+      }
+    } catch { /* Analytics must never block the customer flow. */ }
+
+    const next = quoteForm.elements.namedItem('_next')?.value || 'https://lakelandelitepowerwashing.com/thank-you.html';
+    window.location.assign(next);
+  } catch (error) {
+    sendButton.disabled = false;
+    sendButton.textContent = 'Send estimate request ↗';
+    sendStatus.textContent = 'We could not send your request online. Nothing was lost — use the email option below, copy your request, or call/text Rob at (863) 362-4188.';
+    fallbackEmail.hidden = false;
+    console.error('Estimate delivery failed:', error);
+  }
 });
 window.addEventListener('pageshow', () => { serviceInputs.forEach(input => { input.disabled = false; }); sendButton.disabled = false; sendButton.textContent = 'Send estimate request ↗'; });
 document.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
