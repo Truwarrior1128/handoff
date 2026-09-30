@@ -26,3 +26,12 @@
 #elite-calculator #pc-bundle-status.pc-unlocked{color:#a5ecc0}
 #elite-calculator .pc-bundle-terms{font-size:12px;line-height:1.6;color:#d7e2ef;margin:0 0 14px}
 @media(max-width:480px){#elite-calculator .pc-bundle-banner{align-items:flex-start;flex-direction:column;padding:18px;gap:12px}#elite-calculator .pc-bundle-banner strong{font-size:18px}}
+
+/* Keep light-panel copy readable when an embedded preview supplies dark-theme text rules. */
+#elite-calculator .pc-bundle-banner strong,
+#elite-calculator .pc-bundle-banner p{color:#083b59!important;-webkit-text-fill-color:#083b59!important;opacity:1!important;text-shadow:none!important}
+#elite-calculator .pc-heading>p:not(.pc-measure-intro),
+#elite-calculator .pc-builder h3,
+#elite-calculator #pc-service-name,
+#elite-calculator #pc-label{color:#0a0d12!important;-webkit-text-fill-color:#0a0d12!important;opacity:1!important;text-shadow:none!important}
+#elite-calculator .pc-builder h3 span{color:#fff!important;-webkit-text-fill-color:#fff!important}
