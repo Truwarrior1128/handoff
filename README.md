@@ -51,3 +51,9 @@ Validated JavaScript and local asset references, plus native-canvas controller p
 Preview hosts send no custom events. Analytics/storage errors do not block submission. No extra Google tag is installed. Google's automatic form events may also appear; do not sum those with these custom events as separate leads.
 
 Run `node tests/lead-tracking.cjs`. After publication, verify contact events in Realtime and complete a clearly labeled test estimate through CAPTCHA. Confirm the email arrives, `estimate_send_attempt` and `estimate_return` appear once, and reloading thank-you does not add another return. Then mark selected contact events and the verified return event as key events in GA Admin > Data display > Events. Do not mark starts, reviews or send attempts as completed leads.
+
+## September 29 FormSubmit outage safeguard
+
+Native production submission and the documented AJAX endpoint both returned HTTP 500 / Server Error. Automatic email delivery is NOT restored or verified. `delivery-config.js` now sets `paused: true` to prevent known-failing submissions. The quote form warns upfront and the review dialog offers an explicitly labeled prepared-email link, copy, and call/text instructions. Opening email is not sending and does not trigger send-attempt or completion tracking. Calculator handoff and form data remain available. No customer details are saved to browser storage by this change.
+
+This is temporary mitigation, not a replacement for direct website delivery. Keep `paused: true` until either FormSubmit recovers and an end-to-end inbox test is confirmed, or Rob approves a replacement delivery service and that integration is verified. Reverting this commit restores the prior flow but also restores the known failure while the provider is down.

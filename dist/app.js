@@ -11,6 +11,26 @@ const delivery = window.estimateDelivery || { enabled: false };
 const deliveryEnabled = delivery.enabled === true && ['lakelandelitepowerwashing.com', 'www.lakelandelitepowerwashing.com'].includes(location.hostname);
 const sendButton = document.querySelector('#send-request');
 const sendStatus = document.querySelector('#send-status');
+const deliveryPaused = delivery.paused === true;
+const fallbackEmail = document.createElement('a');
+fallbackEmail.className = 'button button-dark';
+fallbackEmail.id = 'email-request-fallback';
+fallbackEmail.textContent = 'Open this request in my email app ↗';
+fallbackEmail.hidden = true;
+sendButton.after(fallbackEmail);
+fallbackEmail.addEventListener('click', () => {
+  sendStatus.textContent = 'Your request has not been sent by this website. Finish sending in your email app. If it did not open, use Copy request below, or call/text Rob at (863) 362-4188.';
+});
+if (deliveryPaused) {
+  const notice = document.createElement('div');
+  notice.className = 'delivery-notice';
+  notice.innerHTML = '<strong>Online sending is temporarily unavailable.</strong><p><a href="tel:+18633624188">Call Rob</a> or <a href="sms:+18633624188">text (863) 362-4188</a> for your free estimate. You can also fill out this form to prepare an email.</p>';
+  quoteForm.prepend(notice);
+  quoteForm.querySelector('.form-note').textContent = 'Free estimate. No obligation. Sending this request currently requires your email app.';
+  quoteForm.querySelector('.form-privacy').textContent = 'Your details stay on this page until you choose to send them using your email app.';
+  document.querySelector('#request-help').textContent = 'Online sending is temporarily unavailable. Review your request, then open it in your email app and tap Send there. You can also call or text Rob at (863) 362-4188.';
+  sendButton.hidden = true;
+}
 document.querySelector('#delivery-preview-note').hidden = deliveryEnabled;
 if (deliveryEnabled) quoteForm.action = delivery.endpoint;
 
@@ -40,6 +60,11 @@ function prepareDraft() {
   draft = `Hi Lakeland Elite,\n\nI'd like a free estimate for my property.\n\nServices: ${selectedServices().join(', ')}\nName: ${name}\nEmail: ${email}\nService address: ${address}\nProperty ZIP: ${zip}${phone ? `\nPhone: ${phone}` : ''}${details ? `\n\nAbout the job:\n${details}` : ''}\n\nPlease let me know what other details you need. Thank you!`;
   preview.textContent = draft;
   sendStatus.textContent = '';
+  fallbackEmail.hidden = !deliveryPaused;
+  if (deliveryPaused) {
+    fallbackEmail.href = 'mailto:Rob@Lakelandelitepowerwashing.com?subject=' + encodeURIComponent('Estimate request - ' + name.replace(/[\r\n]+/g, ' ')) + '&body=' + encodeURIComponent(draft);
+    sendStatus.textContent = 'Not sent yet. Your email app must send the message. If it does not open, use Copy request, or call/text (863) 362-4188.';
+  }
   sendButton.disabled = false;
   sendButton.textContent = 'Send estimate request ↗';
   document.querySelector('#copy-status').textContent = '';
@@ -65,6 +90,10 @@ quoteForm.addEventListener('submit', event => {
 quoteForm.elements.namedItem('name').addEventListener('input', () => quoteForm.elements.namedItem('name').setCustomValidity(''));
 quoteForm.elements.namedItem('address').addEventListener('input', () => quoteForm.elements.namedItem('address').setCustomValidity(''));
 sendButton.addEventListener('click', () => {
+  if (deliveryPaused) {
+    sendStatus.textContent = 'Online sending is unavailable. Use the email option, copy your request, or call/text Rob at (863) 362-4188.';
+    return;
+  }
   if (!deliveryEnabled) {
     sendStatus.textContent = 'Preview complete — nothing was sent. On the live site, this step sends your request without an email app.';
     return;
