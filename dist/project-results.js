@@ -1,0 +1,3 @@
+(()=>{
+const range=document.getElementById('reveal');range.addEventListener('input',()=>{document.getElementById('comparison').style.setProperty('--split',range.value+'%');range.setAttribute('aria-valuetext',range.value+' percent before photo visible')});const comparison=document.getElementById('comparison');function move(e){const rect=comparison.getBoundingClientRect();range.value=Math.round(Math.max(0,Math.min(100,(e.clientX-rect.left)/rect.width*100)));range.dispatchEvent(new Event('input'))}comparison.addEventListener('pointerdown',e=>{comparison.setPointerCapture(e.pointerId);move(e)});comparison.addEventListener('pointermove',e=>{if(comparison.hasPointerCapture(e.pointerId))move(e)});comparison.addEventListener('dragstart',e=>e.preventDefault());
+})();
