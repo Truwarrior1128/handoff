@@ -2,7 +2,6 @@
 const quoteForm = document.querySelector('#quote-form');
 const serviceInputs = [...quoteForm.querySelectorAll('input[name="service"]')];
 const allowedServices = serviceInputs.map(input => input.value);
-const serviceError = document.querySelector('#service-error');
 const dialog = document.querySelector('#request-dialog');
 const preview = document.querySelector('#request-preview');
 let draft = '';
@@ -34,10 +33,12 @@ if (deliveryPaused) {
 document.querySelector('#delivery-preview-note').hidden = deliveryEnabled;
 if (deliveryEnabled) quoteForm.action = delivery.endpoint;
 
-function selectedServices() { return serviceInputs.filter(input => input.checked).map(input => input.value); }
+function selectedServices() {
+  const selected = serviceInputs.filter(input => input.checked).map(input => input.value);
+  return selected.length ? selected : ['Help me decide'];
+}
 function syncServices() {
-  serviceInputs.forEach(input => { input.nextElementSibling.querySelector('b').textContent = input.checked ? '✓' : '+'; });
-  if (selectedServices().length) serviceError.hidden = true;
+  document.querySelector('#submitted-services').value = selectedServices().join(', ');
 }
 serviceInputs.forEach(input => input.addEventListener('change', syncServices));
 document.querySelectorAll('[data-select-service]').forEach(button => {
@@ -46,7 +47,7 @@ document.querySelectorAll('[data-select-service]').forEach(button => {
     if (input) input.checked = true;
     syncServices();
     document.querySelector('#quote').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-    if (input) input.focus({ preventScroll: true });
+    quoteForm.elements.namedItem('name').focus({ preventScroll: true });
   });
 });
 function prepareDraft() {
@@ -73,7 +74,6 @@ function prepareDraft() {
 }
 quoteForm.addEventListener('submit', event => {
   event.preventDefault();
-  if (!selectedServices().length) { serviceError.hidden = false; serviceInputs[0].focus(); return; }
   if (!String(new FormData(quoteForm).get('name') || '').trim()) {
     quoteForm.elements.namedItem('name').setCustomValidity('Please enter your name.');
     quoteForm.elements.namedItem('name').reportValidity();
