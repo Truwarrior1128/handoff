@@ -1,15 +1,13 @@
-/* Repeating 14-day schedule, anchored to September 19, 2026 in Lakeland. */
+/* Open daily, 8 AM–8 PM in Lakeland (Eastern Time). */
 (function (root) {
   'use strict';
   const DAY = 86400000;
-  const ANCHOR = Date.UTC(2026, 8, 19);
-  const OPEN_DAYS = [false, false, false, true, true, false, false, true, true, true, false, false, true, true];
   const localClock = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit',
     hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
   });
   const dateLabel = new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric' });
-  function isOpenDay(day) { return OPEN_DAYS[((Math.round((day - ANCHOR) / DAY) % 14) + 14) % 14]; }
+  function isOpenDay() { return true; }
   function getSchedule(now = new Date()) {
     const p = Object.fromEntries(localClock.formatToParts(now).map(part => [part.type, part.value]));
     const today = Date.UTC(Number(p.year), Number(p.month) - 1, Number(p.day));
@@ -63,3 +61,4 @@
   root.setInterval(renderHours, 30000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) renderHours(); });
 })(typeof window === 'undefined' ? globalThis : window);
+
