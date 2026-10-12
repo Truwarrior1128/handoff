@@ -1,0 +1,31 @@
+.detail-header>div{align-items:center;max-width:1120px}
+.landing-brand{display:flex;align-items:center;gap:18px;color:#fff;min-width:0}
+.landing-brand img{width:112px;height:112px;object-fit:contain;border-radius:16px;background:#fff}
+.landing-brand span{font-weight:800;font-size:20px;letter-spacing:.025em}
+.landing-brand small{display:block;font-size:10px;letter-spacing:.1em;margin-top:6px}
+.detail-header nav{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:700}
+.service-estimator{border:1px solid #cad8e5;border-radius:20px;padding:32px;background:#f2f7fc;color:#101b29}
+.service-detail .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#075c9a}
+.service-detail .service-estimator h2{margin:10px 0 14px}
+.estimate-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:26px;align-items:start}
+.estimate-grid label{font-weight:700;display:block}
+#service-size{display:block;width:100%;font:inherit;font-size:20px;min-height:54px;padding:12px;border:1px solid #8fa8bf;border-radius:8px;background:#fff;color:#101b29;margin-top:10px}
+#service-size:disabled{opacity:.55}
+#service-size-hint,#service-price-note{font-size:14px;line-height:1.6;margin-top:10px;color:#405366}
+.estimate-grid .estimate-unsure{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.5;margin-top:20px;cursor:pointer}
+.estimate-unsure input{width:20px;height:20px;flex:0 0 20px;margin-top:2px;accent-color:#087fce}
+.estimate-result{background:#081827;color:#fff;border-radius:14px;padding:26px}
+.estimate-result>p:first-child{font-size:11px;letter-spacing:.1em;font-weight:700;color:#abd9ff}
+#service-price{display:block;font-size:clamp(28px,5vw,48px);font-weight:800;line-height:1.2;margin:14px 0}
+#service-result-note{font-size:14px;color:#d0deeb;line-height:1.6}
+#service-request{width:100%;margin-top:20px;white-space:normal;min-height:50px}
+.service-detail .landing-quote{padding:32px;border-radius:20px;border:1px solid #cad8e5;background:#fff;scroll-margin-top:20px}
+.landing-quote h2{margin-top:12px}
+.landing-quote .quote-form{margin-top:22px;padding:0;background:#fff}
+#landing-estimate-summary{font-size:15px;background:#eef7ff;border-left:4px solid #087fce;padding:14px 16px;border-radius:4px}
+.landing-quote .quote-form .form-privacy{overflow-wrap:anywhere}
+.detail-header a:focus-visible,.service-detail button:focus-visible,.service-detail input:focus-visible{outline:3px solid #f4c94a;outline-offset:4px}
+@media(max-width:650px){.detail-header{padding:16px}.detail-header>div{gap:18px}.landing-brand img{width:86px;height:86px}.landing-brand span{font-size:17px}.landing-brand small{font-size:8px}.detail-header nav{width:100%;justify-content:space-between;gap:12px}.service-detail{padding:28px 16px 50px}.service-detail h1{font-size:38px}.detail-intro{font-size:17px}.service-estimator,.service-detail .landing-quote{padding:22px 18px;border-radius:14px}.estimate-grid{grid-template-columns:1fr;gap:20px}.estimate-result{padding:22px}.landing-quote .form-row{grid-template-columns:1fr;gap:0}.landing-quote h2{font-size:29px}.detail-actions .button{font-size:14px;padding:14px}.detail-footer{overflow-wrap:anywhere}}
+.landing-quote .quote-form{border:0;box-shadow:none;border-radius:0}
+.landing-quote .quote-form>label,.landing-quote .form-row>label{margin-bottom:20px}
+.landing-quote .quote-form input:not([type=checkbox]),.landing-quote .quote-form textarea{margin-top:8px;border-radius:7px;font-weight:400}

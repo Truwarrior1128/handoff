@@ -57,7 +57,9 @@ function prepareDraft() {
   const address = String(data.get('address') || '').trim();
   const phone = String(data.get('phone') || '').trim();
   const email = String(data.get('email') || '').trim();
-  const details = String(data.get('details') || '').trim();
+  const customerDetails = String(data.get('details') || '').trim();
+  const estimate = String(data.get('calculator_estimate') || '').trim();
+  const details = [estimate, customerDetails].filter(Boolean).join('\n\n');
   draft = `Hi Lakeland Elite,\n\nI'd like a free estimate for my property.\n\nServices: ${selectedServices().join(', ')}\nName: ${name}\nEmail: ${email}\nService address: ${address}\nProperty ZIP: ${zip}${phone ? `\nPhone: ${phone}` : ''}${details ? `\n\nAbout the job:\n${details}` : ''}\n\nPlease let me know what other details you need. Thank you!`;
   preview.textContent = draft;
   sendStatus.textContent = '';
@@ -173,6 +175,7 @@ document.querySelector('#copy-request').addEventListener('click', async () => {
 });
 const menuButton = document.querySelector('.menu-button');
 const mobileNav = document.querySelector('#mobile-nav');
+if (menuButton && mobileNav) {
 function closeMenu() { mobileNav.hidden = true; menuButton.setAttribute('aria-expanded', 'false'); menuButton.setAttribute('aria-label', 'Open menu'); }
 menuButton.addEventListener('click', () => {
   const open = menuButton.getAttribute('aria-expanded') !== 'true';
@@ -182,7 +185,9 @@ mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', c
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
 document.addEventListener('click', event => { if (!event.target.closest('.site-header')) closeMenu(); });
 matchMedia('(min-width: 701px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
-document.querySelector('#year').textContent = String(new Date().getFullYear());
+}
+const yearLabel = document.querySelector('#year');
+if (yearLabel) yearLabel.textContent = String(new Date().getFullYear());
 // Optional page-scoped API: stages the visible form; never sends a message.
 if (document.modelContext?.registerTool) {
   const lifecycle = new AbortController();
