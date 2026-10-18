@@ -29,3 +29,6 @@
 .landing-quote .quote-form{border:0;box-shadow:none;border-radius:0}
 .landing-quote .quote-form>label,.landing-quote .form-row>label{margin-bottom:20px}
 .landing-quote .quote-form input:not([type=checkbox]),.landing-quote .quote-form textarea{margin-top:8px;border-radius:7px;font-weight:400}
+
+
+.service-roof-options{margin:18px 0}.service-roof-options label{display:block;font-weight:700;margin-bottom:8px}.service-roof-options select{display:block;width:100%;max-width:100%;min-width:0;min-height:48px;padding:12px;border:1px solid #9eafbf;border-radius:8px;background:#fff;color:#101b29;font:inherit;font-size:16px}.service-roof-options p{font-size:14px;line-height:1.6}

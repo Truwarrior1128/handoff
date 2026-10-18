@@ -16,10 +16,18 @@
   document.querySelector('#service-size-hint').textContent = service.hint;
   document.querySelector('#service-price-note').textContent = service.note;
   size.placeholder = 'e.g. ' + service.sample.toLocaleString('en-US');
+  let roofMaterial;
+  if(service.id==='roof') {
+    const group=document.createElement('div');group.className='service-roof-options';
+    group.innerHTML='<label for="service-roof-material">Roof material</label><select id="service-roof-material" aria-describedby="service-roof-note"><option value="">Choose roof material</option><option value="shingle">Asphalt shingles</option><option value="metal">Metal</option><option value="tile">Concrete / clay tile</option><option value="other">Other / unsure — custom quote</option></select><p id="service-roof-note" aria-live="polite"></p>';
+    size.closest('label') ? size.closest('label').after(group) : size.after(group);
+    roofMaterial=group.querySelector('select');
+    roofMaterial.addEventListener('change',changed);
+  }
   let started = false;
   function update() {
     size.disabled = unknown.checked;
-    const result = pricing.priceFor(service, size.value, unknown.checked);
+    const result = pricing.priceFor(service, size.value, unknown.checked, roofMaterial?.value);
     const measurement = unknown.checked ? 'Measurement help requested' : size.value ? size.value + ' sq ft' : 'Size not provided';
     let estimate = 'Quote requested; size not provided.';
     if (result.kind === 'priced') {
@@ -33,6 +41,11 @@
       if (result.kind === 'invalid') estimate = 'Quote requested; measurement needs confirmation.';
     }
     size.setCustomValidity(result.kind === 'invalid' ? 'Enter a measurement greater than zero, or choose measurement help.' : '');
+    if(roofMaterial) {
+      estimate='Roof material: '+pricing.roofMaterialName(roofMaterial.value)+'. '+estimate;
+      document.querySelector('#service-roof-note').textContent=pricing.roofMaterialNote(roofMaterial.value);
+      estimate+=' '+pricing.roofMaterialNote(roofMaterial.value);
+    }
     hidden.value = service.name + ': ' + estimate + ' ' + service.note;
     summary.textContent = estimate;
     button.disabled = result.kind === 'invalid';
@@ -62,3 +75,4 @@
   window.addEventListener('pageshow', update);
   update();
 })();
+
