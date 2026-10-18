@@ -3,7 +3,7 @@
   const live = ['lakelandelitepowerwashing.com', 'www.lakelandelitepowerwashing.com'].includes(location.hostname);
   if (!live) return;
   const pendingKey = 'elite_estimate_pending';
-  const allowed = new Set(['call_click', 'text_click', 'email_click', 'estimate_start', 'estimate_review', 'estimate_send_attempt', 'estimate_return']);
+  const allowed = new Set(['call_click', 'text_click', 'email_click', 'estimate_start', 'estimate_review', 'estimate_send_attempt', 'estimate_return', 'generate_lead']);
   function record(name) {
     if (!allowed.has(name)) return;
     try {
@@ -12,6 +12,7 @@
   }
   window.eliteLeadTracking = Object.freeze({
     review() { record('estimate_review'); },
+    success() { record('generate_lead'); },
     sendAttempt(form) {
       try {
         const next = form.elements.namedItem('_next');

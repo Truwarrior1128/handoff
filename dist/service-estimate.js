@@ -47,7 +47,7 @@
       estimate+=' '+pricing.roofMaterialNote(roofMaterial.value);
     }
     hidden.value = service.name + ': ' + estimate + ' ' + service.note;
-    summary.textContent = estimate;
+    summary.textContent = (size.value || unknown.checked || roofMaterial?.value) ? estimate : '';
     button.disabled = result.kind === 'invalid';
   }
   function changed() {
@@ -64,13 +64,10 @@
     document.querySelector('#quote').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
     document.querySelector('#quote-form').elements.namedItem('name').focus({preventScroll:true});
   });
-  document.querySelector('#quote-form').addEventListener('submit', event => {
+  document.querySelector('#quote-form').addEventListener('submit', () => {
     update();
-    if (!size.checkValidity()) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      size.reportValidity();
-    }
+    // The calculator is optional. An uncertain/invalid size must not block a contact request.
+    // update() includes a measurement-confirmation note for Rob instead of a price.
   }, true);
   window.addEventListener('pageshow', update);
   update();
