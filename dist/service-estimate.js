@@ -12,7 +12,7 @@
   const hidden = document.querySelector('#landing-estimate-value');
   const summary = document.querySelector('#landing-estimate-summary');
   const button = document.querySelector('#service-request');
-  document.querySelector('#service-size-label').textContent = service.label + ' (sq ft)';
+  document.querySelector('#service-size-label').textContent = service.label + ' (' + service.unit + ')';
   document.querySelector('#service-size-hint').textContent = service.hint;
   document.querySelector('#service-price-note').textContent = service.note;
   size.placeholder = 'e.g. ' + service.sample.toLocaleString('en-US');
@@ -28,7 +28,7 @@
   function update() {
     size.disabled = unknown.checked;
     const result = pricing.priceFor(service, size.value, unknown.checked, roofMaterial?.value);
-    const measurement = unknown.checked ? 'Measurement help requested' : size.value ? size.value + ' sq ft' : 'Size not provided';
+    const measurement = unknown.checked ? 'Measurement help requested' : size.value ? size.value + ' ' + service.unit : 'Size not provided';
     let estimate = 'Quote requested; size not provided.';
     if (result.kind === 'priced') {
       price.textContent = pricing.money(result.price);
