@@ -1,0 +1,14 @@
+/* Facebook page link, styled consistently across the main site and service pages. */
+footer nav a.facebook-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;max-width:100%;box-sizing:border-box;margin-top:12px;padding:12px 16px;border:1px solid #0866ff;border-radius:7px;background:#0866ff;color:#fff;font-size:14px;font-weight:700;line-height:1.4;text-decoration:none;white-space:normal;transition:background .18s,border-color .18s}
+footer nav a.facebook-button svg{display:block;width:24px;height:24px;flex:0 0 24px}
+footer nav a.facebook-button:hover{background:#0756d6;border-color:#0756d6;color:#fff;text-decoration:none}
+footer nav a.facebook-button:focus-visible{outline:3px solid #fff;outline-offset:4px}
+
+/* Google reviews page link, paired with the Facebook button. */
+footer nav a.google-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;width:218px;min-height:50px;max-width:100%;box-sizing:border-box;margin-top:12px;padding:12px 16px;border:1px solid #dadce0;border-radius:7px;background:#fff;color:#202124;font-size:14px;font-weight:700;line-height:1.4;text-decoration:none;white-space:normal;transition:background .18s,border-color .18s}
+footer nav a.google-button .google-button-icon{display:flex;align-items:center;justify-content:center;width:24px;height:24px;flex:0 0 24px;overflow:hidden}
+footer nav a.google-button .google-button-icon img{display:block;width:72px;height:72px;min-width:72px;max-width:none;flex:0 0 72px}
+footer nav a.google-button:hover{background:#f1f3f4;border-color:#bdc1c6;color:#202124;text-decoration:none}
+footer nav a.google-button:focus-visible{outline:3px solid #8ab4f8;outline-offset:4px}
+footer nav a.facebook-button{width:218px;min-height:50px}
+footer nav a.facebook-button{gap:10px;padding:12px 10px}
