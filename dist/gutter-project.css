@@ -1,0 +1,12 @@
+/* Real gutter project photos: preserve the full frame and visible strainer. */
+.gutter-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:24px 24px 0;color:#102335}
+.gutter-photo-grid figure{margin:0;min-width:0}
+.gutter-photo-frame{position:relative;border-radius:10px;overflow:hidden;background:#e4ebf0}
+.gutter-photo-grid img{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:3/4;object-fit:contain;margin:0;border:0;border-radius:0}
+.gutter-photo-label{position:absolute;top:14px;left:14px;padding:6px 12px;border-radius:5px;background:#071e30;color:white;font:800 12px/1.5 Manrope,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.gutter-photo-after{background:#006ba3}
+.gutter-photo-grid figcaption{padding:12px 0 8px;font-size:13px;line-height:1.6;color:#526578}
+.gutter-project-note{font-size:13px;line-height:1.65;color:#526578}
+.lp-gutter-project{border:1px solid #dce6ed;border-radius:12px;overflow:hidden}
+.lp-gutter-project .lp-project-caption{padding-top:12px}
+@media(max-width:600px){.gutter-photo-grid{grid-template-columns:1fr;gap:18px;padding:18px 18px 0}.gutter-photo-label{top:12px;left:12px}.gutter-photo-grid figcaption{padding-bottom:2px}}
