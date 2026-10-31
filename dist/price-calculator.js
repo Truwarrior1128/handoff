@@ -1,14 +1,14 @@
 /* Pricing source: Residential Service Price Guide, September 25, 2026, Library version 3.
    Lawn tiers updated by owner direction September 29, 2026: $40 through 4,000 sq ft, +$10 per 2,000 sq ft.
-   Larger-job bands approved October 19, 2026; original tiers preserved.
+   Larger-job bands approved October 19, 2026; original tiers preserved except owner-approved shingle and gutter reductions October 30, 2026.
    Additive component. Does not send requests or change existing form delivery. */
 (() => {
  'use strict';
  const services = [
  {id:'driveway',name:'Driveway & walkway',label:'Concrete area to clean',unit:'sq ft',hint:'Measure length × width in feet. Add together the concrete areas you want cleaned.',limits:[700,1000,1400,1800],prices:[200,250,325,400],sample:700,group:'Pressure washing',note:'Concrete cleaning. Extra patios, curbs, oil treatment and heavy staining are quoted separately.'},
  {id:'house',name:'House washing',label:'One-story home size',unit:'sq ft',hint:'Use your home’s listed square footage, not the lot size.',limits:[1600,2000,2500,3000],prices:[300,325,375,425],sample:1600,group:'House & roof cleaning',note:'Exterior wall wash. Porches, heavy buildup, delicate surfaces and unusual layouts may change the quote.'},
- {id:'roof',name:'Roof washing',label:'One-story home size',unit:'sq ft',hint:'Use your home’s listed square footage for this starting estimate. Rob will confirm the actual roof area.',limits:[1600,2000,2500,3000],prices:[350,425,500,575],sample:1600,group:'House & roof cleaning',note:'Accessible one-story roof with ordinary buildup. Roof material, pitch, actual roof area, condition and access affect the final quote.'},
- {id:'gutter',name:'Gutter cleaning',label:'Total gutter length',unit:'linear ft',hint:'Add the lengths of the gutter runs that need interior cleaning.',limits:[120,160,200,250],prices:[150,190,230,285],sample:120,group:'Gutter cleaning',note:'Accessible one-story gutter interiors with ordinary debris. Guards, blocked downspouts and heavy debris may cost more.'},
+ {id:'roof',name:'Roof washing',label:'One-story home size',unit:'sq ft',hint:'Use your home’s listed square footage for this starting estimate. Rob will confirm the actual roof area.',limits:[1600,2000,2500,3000],prices:[350,400,450,500],sample:1600,group:'House & roof cleaning',note:'Accessible one-story roof with ordinary buildup. Roof material, pitch, actual roof area, condition and access affect the final quote.'},
+ {id:'gutter',name:'Gutter cleaning',label:'Total gutter length',unit:'linear ft',hint:'Add the lengths of the gutter runs that need interior cleaning.',limits:[120,160,200,250],prices:[150,185,220,265],sample:120,group:'Gutter cleaning',note:'Accessible one-story gutter interiors with ordinary debris. Guards, blocked downspouts and heavy debris may cost more.'},
  {id:'lawn',name:'Lawn cutting',label:'Lawn area to mow',unit:'sq ft',hint:'Include front, back and side lawns. Count grass only—not house square footage, driveway or garden beds.',limits:[4000,6000,8000,10000,12000,14000,16000],prices:[40,50,60,70,80,90,100],sample:4000,group:'Property cleanup & lawn care',suffix:' / visit',note:'Includes mowing, routine edging, string trimming and blowing. Overgrown first cuts and difficult terrain cost more.'},
  {id:'hedge',name:'Hedge trimming',label:'Total hedge length',unit:'linear ft',hint:'Add the lengths of reachable hedges about 6 feet tall or less.',limits:[25,50,75,100],prices:[65,110,155,200],sample:25,group:'Property cleanup & lawn care',note:'Reachable shrubs about 6 ft tall or less with light cleanup. Height, thickness, shaping and hauling affect price.'},
  {id:'mulch',name:'Mulch laying',label:'Garden bed area',unit:'sq ft',hint:'Measure the beds to be mulched at about 2 inches deep.',limits:[200,400,600,800],prices:[120,200,290,380],sample:200,group:'Property cleanup & lawn care',suffix:' labor only',note:'Labor only. Mulch, delivery, bed preparation, weeding, edging and disposal are quoted separately.'},
@@ -20,7 +20,7 @@
   driveway:{step:250,amount:43.75,round:5},
   house:{step:250,amount:25,round:5},
   roof:{step:250,amount:37.5,round:5},
-  gutter:{step:25,amount:27.5,round:5},
+  gutter:{step:25,amount:25,round:5},
   lawn:{step:250,amount:1.25,round:0.01},
   hedge:{step:25,amount:45,round:5},
   mulch:{step:250,amount:112.5,round:5},
@@ -32,7 +32,7 @@
   service.hint += ' Above '+limit.toLocaleString('en-US')+' '+service.unit+', estimates increase in '+extension.step+' '+service.unit+' bands.';
  }
  const roofMaterials = Object.freeze({
-  shingle:{name:'Asphalt shingles',prices:[350,425,500,575]},
+  shingle:{name:'Asphalt shingles',prices:[350,400,450,500],extension:{step:250,amount:25,round:5}},
   metal:{name:'Metal',prices:[400,475,550,625]},
   tile:{name:'Concrete / clay tile',prices:[450,525,600,675]},
   other:{name:'Other / unsure',prices:null}
@@ -48,7 +48,7 @@
   const rates=service.id==='roof'?roofMaterials[material]?.prices:service.prices;
   if(!rates) return {kind:'custom'};
   if(i>=0) return {kind:'priced',price:rates[i],n};
-  const extension=extensions[service.id];
+  const extension=service.id==='roof'?(roofMaterials[material]?.extension||extensions.roof):extensions[service.id];
   if(!extension) return {kind:'custom'};
   const last=service.limits.length-1;
   const bands=Math.ceil((n-service.limits[last])/extension.step);
