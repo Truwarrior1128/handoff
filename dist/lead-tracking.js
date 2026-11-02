@@ -3,6 +3,65 @@
   const live = ['lakelandelitepowerwashing.com', 'www.lakelandelitepowerwashing.com'].includes(location.hostname);
   if (!live) return;
   const pendingKey = 'elite_estimate_pending';
+
+  // Carry advertising attribution through same-tab navigation into the owner's
+  // estimate request. Never send click IDs, form contact data or raw UTMs as
+  // custom Google Analytics event parameters.
+  const attributionKey = 'elite_lead_attribution_v1';
+  const attributionKeys = ['gclid', 'gbraid', 'wbraid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  const attributionTTL = 24 * 60 * 60 * 1000;
+  function cleanAttribution(input) {
+    const result = {};
+    for (const key of attributionKeys) {
+      const value = input[key];
+      if (typeof value === 'string' && value.length <= 250 && !/[\r\n<>]/.test(value)) {
+        if (['gclid', 'gbraid', 'wbraid'].includes(key) && !/^[A-Za-z0-9_.~-]+$/.test(value)) continue;
+        if (value.trim()) result[key] = value.trim();
+      }
+    }
+    return result;
+  }
+  function readAttribution() {
+    let previous = null;
+    try { previous = JSON.parse(sessionStorage.getItem(attributionKey)); } catch {}
+    const age = Date.now() - previous?.captured_at;
+    if (!(age >= 0 && age < attributionTTL)) previous = null;
+    const params = new URLSearchParams(location.search);
+    const current = cleanAttribution(Object.fromEntries(attributionKeys.map(key => [key, params.get(key)])));
+    if (Object.keys(current).length) {
+      // A new tagged visit replaces old attribution; never combine unrelated clicks.
+      previous = {...current, landing_path: location.pathname, captured_at: Date.now()};
+      try { sessionStorage.setItem(attributionKey, JSON.stringify(previous)); } catch {}
+    }
+    return previous ? {...cleanAttribution(previous), landing_path: previous.landing_path, captured_at: previous.captured_at} : {};
+  }
+  const attribution = readAttribution();
+  let leadId = '';
+  function attachAttribution(form) {
+    try {
+      if (!leadId) leadId = crypto.randomUUID();
+      const source = attribution.gclid || attribution.gbraid || attribution.wbraid ||
+        (attribution.utm_source?.toLowerCase() === 'google' &&
+         ['cpc', 'ppc', 'paidsearch'].includes(attribution.utm_medium?.toLowerCase()))
+        ? 'Google Ads' : (attribution.utm_source ? 'Tagged website visit' : 'Website (source unconfirmed)');
+      const values = {lead_id: leadId, acquisition_source: source,
+        ...Object.fromEntries(attributionKeys.filter(key => attribution[key]).map(key => [key, attribution[key]]))};
+      if (typeof attribution.landing_path === 'string' && attribution.landing_path.startsWith('/') &&
+          !/[\r\n<>?#]/.test(attribution.landing_path)) values.acquisition_landing_page = attribution.landing_path;
+      if (attribution.captured_at) values.attribution_captured_at = new Date(attribution.captured_at).toISOString();
+      for (const [name, value] of Object.entries(values)) {
+        let input = form.elements.namedItem(name);
+        if (!input) {
+          input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          form.appendChild(input);
+        }
+        input.value = value;
+      }
+    } catch { /* Attribution must never block a customer's request. */ }
+  }
+
   const allowed = new Set(['call_click', 'text_click', 'email_click', 'estimate_start', 'estimate_review', 'estimate_send_attempt', 'estimate_return', 'generate_lead']);
   function record(name) {
     if (!allowed.has(name)) return;
@@ -14,6 +73,7 @@
     review() { record('estimate_review'); },
     success() { record('generate_lead'); },
     sendAttempt(form) {
+      attachAttribution(form);
       try {
         const next = form.elements.namedItem('_next');
         const token = crypto.randomUUID();
