@@ -2,6 +2,32 @@
 (() => {
   const live = ['lakelandelitepowerwashing.com', 'www.lakelandelitepowerwashing.com'].includes(location.hostname);
   if (!live) return;
+
+  // Google website-call conversion: count connected calls >= 60 seconds.
+  // Only Google-supplied forwarding numbers may replace call destinations.
+  // SMS links must continue to use Rob's original business number.
+  try {
+    if (typeof window.gtag === 'function') window.gtag('config', 'AW-18476583738/OwaUCJz79LAdELqWqepE', {
+      phone_conversion_number: '(863) 362-4188',
+      phone_conversion_callback(formattedNumber, mobileNumber) {
+        if (typeof mobileNumber !== 'string' || !/^\+?\d{10,15}$/.test(mobileNumber)) return;
+        if (typeof formattedNumber !== 'string' || !/^[+()0-9 .-]{10,30}$/.test(formattedNumber)) return;
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+          const digits = link.getAttribute('href').replace(/\D/g, '');
+          if (!['8633624188', '18633624188'].includes(digits)) return;
+          link.setAttribute('href', 'tel:' + mobileNumber);
+          const walker = document.createTreeWalker(link, 4);
+          let text;
+          while ((text = walker.nextNode())) {
+            text.nodeValue = text.nodeValue.replace(/(?:\+?1[ .-]*)?\(?863\)?[ .-]*362[ .-]*4188/g, formattedNumber);
+          }
+          const label = link.getAttribute('aria-label');
+          if (label) link.setAttribute('aria-label', label.replace(/(?:\+?1[ .-]*)?\(?863\)?[ .-]*362[ .-]*4188/g, formattedNumber));
+        });
+      }
+    });
+  } catch { /* Calls and quote requests stay usable if measurement is unavailable. */ }
+
   const pendingKey = 'elite_estimate_pending';
 
   // Carry advertising attribution through same-tab navigation into the owner's
