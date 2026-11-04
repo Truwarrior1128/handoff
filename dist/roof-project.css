@@ -1,0 +1,12 @@
+/* Full-frame roof project photos, paired before and after. */
+.roof-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding:24px 24px 0;color:#102335}
+.roof-photo-grid figure{margin:0;min-width:0}
+.roof-photo-frame{position:relative;border-radius:10px;overflow:hidden;background:#e4ebf0}
+.roof-photo-grid img{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;margin:0;border:0;border-radius:0}
+.roof-photo-label{position:absolute;top:14px;left:14px;padding:6px 12px;border-radius:5px;background:#071e30;color:#fff;font:800 12px/1.5 Manrope,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.roof-photo-after{background:#006ba3}
+.roof-photo-grid figcaption{padding:12px 0 8px;font-size:13px;line-height:1.6;color:#526578}
+.lp-roof-project{border:1px solid #dce6ed;border-radius:12px;overflow:hidden}
+.lp-roof-project+.lp-roof-project{margin-top:24px}
+.lp-roof-project .lp-project-caption{padding-top:12px}
+@media(max-width:600px){.roof-photo-grid{grid-template-columns:1fr;gap:18px;padding:18px 18px 0}.roof-photo-label{top:12px;left:12px}.roof-photo-grid figcaption{padding-bottom:2px}}
