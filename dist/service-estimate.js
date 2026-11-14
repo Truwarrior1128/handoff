@@ -25,9 +25,12 @@
     roofMaterial.addEventListener('change',changed);
   }
   let mobileHome;
-  if(service.id==='driveway') {
+  const mobileHomeTier=pricing.mobileHomeTiers[service.id];
+  if(mobileHomeTier) {
     const group=document.createElement('p');
-    group.innerHTML='<label><input id="service-mobile-home" type="checkbox"> Mobile home driveway</label><br><small>$150 through 500 sq ft. Standard rates apply above 500 sq ft.</small>';
+    group.innerHTML='<label><input id="service-mobile-home" type="checkbox" aria-describedby="service-mobile-home-note"> <span></span></label><br><small id="service-mobile-home-note"></small>';
+    group.querySelector('span').textContent=mobileHomeTier.label;
+    group.querySelector('small').textContent=pricing.mobileHomeNote(mobileHomeTier);
     document.querySelector('#service-size-hint').after(group);
     mobileHome=group.querySelector('input');
     mobileHome.addEventListener('change',changed);
@@ -55,7 +58,7 @@
       document.querySelector('#service-roof-note').textContent=pricing.roofMaterialNote(roofMaterial.value);
       estimate+=' '+pricing.roofMaterialNote(roofMaterial.value);
     }
-    if(mobileHome?.checked) estimate='Mobile home driveway. '+estimate;
+    if(mobileHome?.checked) estimate=mobileHomeTier.label+'. '+estimate;
     hidden.value = service.name + ': ' + estimate + ' ' + service.note;
     summary.textContent = (size.value || unknown.checked || option) ? estimate : '';
     button.disabled = result.kind === 'invalid';
