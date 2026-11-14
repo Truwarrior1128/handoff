@@ -6,3 +6,26 @@
 @media(max-width:650px){html{scroll-padding-top:16px}.lp-wrap{padding-left:20px;padding-right:20px}.lp-topline{font-size:11px;padding:8px 12px}.lp-header .lp-wrap{min-height:89px;padding:10px 16px;gap:12px}.landing-brand{gap:9px}.landing-brand img{width:64px;height:64px}.landing-brand span{font-size:13px}.landing-brand small{font-size:7px;letter-spacing:.045em;margin-top:5px}.lp-header .lp-btn{font-size:12px;padding:10px 12px;min-height:44px}.lp-hero .lp-wrap{grid-template-columns:1fr;padding-top:34px;padding-bottom:30px;gap:30px}.lp-hero h1{font-size:42px}.lp-hero .lp-intro{font-size:16px;margin-top:18px}.lp-eyebrow{font-size:11px;margin-bottom:13px}.lp-offer{margin-top:22px;padding:16px 0;gap:18px}.lp-offer-price{font-size:49px}.lp-offer strong{font-size:15px}.lp-actions{gap:18px;margin-top:22px}.lp-hero .lp-actions{display:grid;grid-template-columns:1fr auto;gap:18px}.lp-hero .lp-btn{padding:14px 15px}.lp-hero-photo{min-height:0;height:300px}.lp-hero-photo img{object-position:50% 65%}.lp-photo-label{bottom:14px;left:14px;right:14px;padding:12px 14px}.lp-photo-label strong{font-size:14px}.lp-photo-label span{font-size:11px}.lp-scope-panel{padding:24px}.lp-trust .lp-wrap{grid-template-columns:1fr 1fr;gap:18px;padding-top:22px;padding-bottom:22px}.lp-review{grid-column:1/-1}.lp-trust-item{border:0;padding:0}.lp-trust-item strong{font-size:13px}.lp-section{padding:44px 0}.lp-section-head{display:block;margin-bottom:24px}.lp-section-head>p{margin-top:15px}.lp-section h2{font-size:32px}.lp-proof-grid{grid-template-columns:1fr;gap:22px}.lp-project-caption{padding:17px 18px}.lp-included-grid,.lp-quote-grid,.lp-faq-grid{grid-template-columns:1fr;gap:28px}.lp-check-list{margin-top:2px}.lp-process-grid{grid-template-columns:1fr;gap:24px;margin-top:26px}.lp-process-grid li{position:relative;padding-left:40px}.lp-step-number{position:absolute;left:0;top:3px}.lp-process-grid h3{font-size:20px}.lp-process-grid p{margin-top:8px}.lp-estimator{margin-top:28px}.lp-estimator>summary{padding:18px}.lp-estimator-inner{padding:0 18px 20px}.estimate-grid{grid-template-columns:1fr;gap:20px}.estimate-result{padding:20px}.lp-owner{gap:18px;margin-top:28px;padding-top:24px}.lp-owner-photo{width:76px;height:76px;flex-basis:76px}.lp-owner h3{font-size:22px}.lp-quote-section h2{font-size:36px}.lp-contact-number{font-size:27px;margin-top:20px}.quote-form{padding:22px 20px}.lp-faq-list summary{font-size:15px}.lp-last-call .lp-wrap{display:block}.lp-last-call .lp-btn{margin-top:20px;width:100%}.lp-last-call h2{font-size:27px}.lp-footer{padding:28px 0 112px}.lp-footer .lp-wrap{display:block}.lp-footer nav{justify-content:start;margin-top:22px;gap:10px 18px}.lp-mobile-bar{position:fixed;bottom:0;left:0;right:0;z-index:30;display:grid;grid-template-columns:.7fr .7fr 1.3fr;gap:8px;padding:9px 12px calc(9px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #d4e2eb;box-shadow:0 -3px 15px #071e3010}.lp-mobile-bar a{display:flex;align-items:center;justify-content:center;text-decoration:none;min-height:46px;font-size:13px;font-weight:800}.lp-mobile-bar .lp-btn{font-size:13px;padding:12px 10px;min-height:46px}body:has(.quote-form input:focus) .lp-mobile-bar,body:has(.quote-form textarea:focus) .lp-mobile-bar,body:has(.quote-form select:focus) .lp-mobile-bar{display:none}}
 @media(max-width:360px){.landing-brand span{font-size:11px}.landing-brand small{font-size:6px}.landing-brand img{width:56px;height:56px}.lp-header .lp-btn{font-size:11px;padding:10px}.lp-hero h1{font-size:37px}.lp-wrap{padding-left:16px;padding-right:16px}.lp-hero .lp-actions{grid-template-columns:1fr}.lp-hero .lp-actions .lp-text-link{text-align:center}.lp-offer strong{font-size:14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* A visible, full-width disclosure with a native keyboard and touch toggle. */
+.lp-estimator { border-color: #b1d6ee; }
+.lp-estimator > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  list-style: none;
+  background: #00a8ff;
+  color: #061725;
+}
+.lp-estimator > summary::-webkit-details-marker { display: none; }
+.lp-estimator > summary:hover { background: #64cfff; }
+.lp-estimator > summary:focus-visible { outline: 3px solid #061725; outline-offset: -5px; }
+.lp-estimator > summary span { margin: 0; color: inherit; font-size: 1rem; font-weight: 800; }
+.lp-estimator > summary svg { flex: 0 0 22px; width: 22px; height: 22px; }
+.lp-estimator > summary svg:last-child { margin-left: auto; }
+.lp-estimator > summary .lp-calculator-label-open,
+.lp-estimator[open] > summary .lp-calculator-label { display: none; }
+.lp-estimator[open] > summary .lp-calculator-label-open { display: block; }
+.lp-estimator[open] > summary svg:last-child { transform: rotate(180deg); }
+.lp-estimator[open] .lp-estimator-inner { padding-top: 18px; }

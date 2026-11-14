@@ -212,3 +212,19 @@ footer .brand-logo{width:90px;height:90px;object-fit:contain;border-radius:14px;
 
 /* Temporary contact safeguard while automatic delivery is unavailable. */
 .delivery-notice{padding:18px;border:1px solid #0077b8;border-left:4px solid #0077b8;border-radius:8px;background:#edf7ff;color:#132536;margin-bottom:24px}.delivery-notice p{margin-top:8px;font-size:15px}.delivery-notice a{font-weight:700}#email-request-fallback{white-space:normal;text-align:center;max-width:100%}
+
+/* Make the calculator the first, clearly labeled action in the hero. */
+.hero-actions .hero-calculator {
+  gap: 10px;
+  background: #00a8ff;
+  border-color: #00a8ff;
+  color: #061725;
+  font-weight: 800;
+}
+.hero-actions .hero-calculator:hover { background: #64cfff; border-color: #64cfff; }
+.hero-calculator:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+.hero-calculator svg { width: 21px; height: 21px; flex-shrink: 0; }
+.hero-calculator svg:last-child { width: 16px; height: 16px; }
+@media (max-width: 650px) {
+  .hero-actions .hero-calculator { grid-column: 1 / -1; justify-content: center; }
+}
