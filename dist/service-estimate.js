@@ -35,16 +35,30 @@
     mobileHome=group.querySelector('input');
     mobileHome.addEventListener('change',changed);
   }
+  let strainerInput;
+  let strainerDetails;
+  if(service.id==='gutter') {
+    const wrapper=document.createElement('div');
+    wrapper.innerHTML=pricing.strainerMarkup('service-strainer');
+    const group=wrapper.firstElementChild;
+    group.hidden=false;
+    document.querySelector('#service-price-note').after(group);
+    strainerInput=pricing.bindStrainers(group,'service-strainer',changed);
+    strainerDetails=group.querySelector('#service-strainer-breakdown');
+  }
   let started = false;
   function update() {
     size.disabled = unknown.checked;
     const option = mobileHome?.checked ? 'mobile-home' : roofMaterial?.value;
     const result = pricing.priceFor(service, size.value, unknown.checked, option);
+    const count=pricing.strainerCount(strainerInput?.value??0);
+    const priceWithAddOn=result.price+(count||0)*pricing.strainerUnitPrice;
+    if(strainerDetails) strainerDetails.textContent=pricing.strainerBreakdown(result,count);
     const measurement = unknown.checked ? 'Measurement help requested' : size.value ? size.value + ' ' + service.unit : 'Size not provided';
     let estimate = 'Quote requested; size not provided.';
     if (result.kind === 'priced') {
-      price.textContent = pricing.money(result.price);
-      estimate = measurement + ' — estimated starting price: ' + pricing.money(result.price) + '.';
+      price.textContent = pricing.money(priceWithAddOn);
+      estimate = measurement + ' — estimated starting price: ' + pricing.money(priceWithAddOn) + '.';
     } else if (result.kind === 'custom') {
       price.textContent = 'Custom quote';
       estimate = measurement + ' — custom quote required.';
@@ -58,10 +72,12 @@
       document.querySelector('#service-roof-note').textContent=pricing.roofMaterialNote(roofMaterial.value);
       estimate+=' '+pricing.roofMaterialNote(roofMaterial.value);
     }
+    if(count) estimate+=' '+pricing.strainerBreakdown(result,count)+'.';
+    if(count===null) estimate+=' Strainer quantity needs confirmation.';
     if(mobileHome?.checked) estimate=mobileHomeTier.label+'. '+estimate;
     hidden.value = service.name + ': ' + estimate + ' ' + service.note;
-    summary.textContent = (size.value || unknown.checked || option) ? estimate : '';
-    button.disabled = result.kind === 'invalid';
+    summary.textContent = (size.value || unknown.checked || option || count) ? estimate : '';
+    button.disabled = result.kind === 'invalid' || count===null;
   }
   function changed() {
     update();

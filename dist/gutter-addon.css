@@ -1,0 +1,71 @@
+.gutter-addon {
+  margin: 18px 0;
+  padding: 14px;
+  border: 1px solid #d7e4ef;
+  border-radius: 12px;
+  background: #f3f9ff;
+  color: #0a1827;
+}
+
+.gutter-addon-heading,
+.gutter-addon-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+
+.gutter-addon-heading strong { font-size: 1rem; }
+.gutter-addon-heading span { color: #00699f; font-size: .82rem; font-weight: 800; }
+.gutter-addon figure { margin: 12px 0; }
+.gutter-addon figcaption { margin-top: 6px; color: #435b70; font-size: .76rem; }
+
+/* Frame the strainer using the original project photo. */
+.gutter-addon-photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 5 / 3;
+  border-radius: 8px;
+}
+
+.gutter-addon-photo img {
+  position: absolute;
+  top: -118.333%;
+  left: -80%;
+  width: 180%;
+  max-width: none;
+  height: auto;
+}
+
+.gutter-addon-quantity label { font-weight: 800; }
+.gutter-addon-stepper {
+  display: grid;
+  grid-template-columns: 44px 50px 44px;
+  border: 1px solid #afc3d5;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.gutter-addon .gutter-addon-stepper button,
+.gutter-addon .gutter-addon-stepper input[type="number"] {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: #fff;
+  font: inherit;
+  font-weight: 800;
+  text-align: center;
+}
+
+.gutter-addon-stepper button { color: #00699f; cursor: pointer; }
+.gutter-addon-stepper input { appearance: textfield; color: #0a1827; }
+.gutter-addon-stepper input::-webkit-inner-spin-button,
+.gutter-addon-stepper input::-webkit-outer-spin-button { appearance: none; }
+.gutter-addon-stepper :focus-visible { outline: 2px solid #0078b9; outline-offset: -3px; }
+.gutter-addon-breakdown { margin-top: 8px; font-size: .83rem; color: #435b70; }
+.gutter-addon-breakdown:empty { margin-top: 0; }
