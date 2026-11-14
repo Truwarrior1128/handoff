@@ -38,8 +38,8 @@
  }
  const roofMaterials = Object.freeze({
   shingle:{name:'Asphalt shingles',prices:[350,400,450,500],extension:{step:250,amount:25,round:5}},
-  metal:{name:'Metal',prices:[400,475,550,625]},
-  tile:{name:'Concrete / clay tile',prices:[450,525,600,675]},
+  metal:{name:'Metal',prices:[400,450,500,550],extension:{step:250,amount:25,round:5}},
+  tile:{name:'Concrete / clay tile',prices:[450,500,550,600],extension:{step:250,amount:25,round:5}},
   other:{name:'Other / unsure',prices:null}
  });
  function roofMaterialName(material){return roofMaterials[material]?.name||'Not selected';}
