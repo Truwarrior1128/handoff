@@ -30,7 +30,104 @@
 <script async src='https://static.mywot.com/website_owners_badges/websiteOwnersBadge.js'></script>
 <link rel="stylesheet" href="/price-calculator.css"><script src="/price-calculator.js?v=20261114-gutter-strainers" defer></script>
 <link rel="stylesheet" href="/project-results.css?v=20261006"><script src="/project-results.js?v=20261006" defer></script>
-<style>.business-hours-section{padding:40px 24px}.business-hours-section .hours-card{margin:0 auto;width:100%;max-width:620px}.hours-card .hours-status{margin:16px 0 0;color:#394b5d;font-size:17px;font-weight:800}.hours-card .hours-status.is-open{color:#12653e}.hours-card .hours-next{margin:3px 0 14px;color:var(--muted);font-size:14px;line-height:1.6}.hours-card .hours-note{font-size:13px;line-height:1.6;color:var(--muted);margin:10px 0 0}@media(max-width:700px){#quote{display:flex;flex-direction:column;align-items:stretch}#quote .quote-form{order:-1}}</style>
+<style>
+#quote {
+  display: block;
+  max-width: 668px;
+  margin: 0 auto;
+  padding: 0 24px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+#quote .quote-form { box-shadow: none; }
+#quote-heading {
+  margin: 0 0 18px;
+  color: var(--ink);
+  font-size: clamp(25px, 4vw, 34px);
+  font-weight: 800;
+}
+.business-hours-section { padding: 16px 24px 0; }
+.business-hours-section .hours-card {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 24px;
+  color: #fff;
+  background: #080a0d;
+  border: 1px solid #26323e;
+}
+#hours-heading {
+  margin: 0 0 12px;
+  color: var(--blue);
+  font-size: clamp(31px, 5vw, 38px);
+  font-weight: 700;
+}
+#hours .hours-days {
+  color: var(--yellow);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+#hours .hours-time {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin-top: 2px;
+  font-size: 21px;
+  font-weight: 700;
+}
+#hours .hours-zone { color: #b9c5d0; font-size: 13px; font-weight: 500; }
+#hours .hours-more { margin-top: 12px; border-color: #33404b; }
+#hours .hours-more summary, #hours .hours-open { color: #70cbff; }
+#hours .hours-status { color: #fff; font-weight: 800; }
+#hours .hours-next { margin-bottom: 8px; color: #b9c5d0; font-size: 14px; }
+#hours .hours-list li { border-color: #33404b; }
+#hours .hours-closed { color: #b9c5d0; }
+#faq {
+  display: block;
+  max-width: 668px;
+  margin: 0 auto;
+  padding: 16px 24px 40px;
+}
+.faq-disclosure {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+.faq-disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  font-weight: 800;
+  list-style: none;
+  cursor: pointer;
+}
+.faq-disclosure > summary::-webkit-details-marker { display: none; }
+.faq-disclosure > summary:focus-visible { outline-offset: -4px; }
+.faq-chevron {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  margin: -4px 3px 0 0;
+  border: solid var(--blue-dark);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.faq-disclosure[open] > summary .faq-chevron { margin-top: 4px; transform: rotate(225deg); }
+.faq-disclosure .faq-list { margin: 0; padding: 0 16px; }
+.faq-disclosure .faq-list details:last-child { border-bottom: 0; }
+.faq-disclosure .faq-list summary { padding: 12px 0; }
+@media (max-width: 700px) {
+  #quote, .business-hours-section, #faq { padding-inline: 16px; }
+  #quote .quote-form, .business-hours-section .hours-card { padding: 20px; }
+}
+</style>
 <link rel="stylesheet" href="/quote-form.css?v=20261017-review"><link rel="stylesheet" href="/facebook-button.css?v=20261021-google-2"><link rel="stylesheet" href="/gutter-project.css?v=20261029">
 <link rel="stylesheet" href="/roof-project.css?v=20261103">
 <link rel="stylesheet" href="/service-area.css"><link rel="stylesheet" href="/gutter-addon.css"></head>
@@ -94,8 +191,9 @@
   </div>
 </section>
 <section id="elite-calculator" aria-labelledby="pc-title"></section>
-<section class="quote-section" id="quote" aria-labelledby="quote-heading"><div class="quote-intro"><p class="eyebrow">FREE ESTIMATE • NO HASSLE</p><h2 id="quote-heading">Ready for your<br>free estimate?</h2><p>Tell us where to reach you and we’ll take it from here. If you used the calculator, tap “Request this estimate” to include your services and estimated price.</p><div class="quote-contact"><span>CALL OR TEXT</span><a href="tel:+18633624188">(863) 362-4188 <span aria-hidden="true">↗</span></a><small><a href="sms:+18633624188">Text Lakeland Elite</a> or call for a free estimate.</small></div><div class="quote-steps"><span><b>1</b> Tell Rob what you need</span><span><b>2</b> Get a quote</span><span><b>3</b> Schedule service</span></div></div>
+<section class="quote-section" id="quote" aria-labelledby="quote-heading">
 <form id="quote-form" class="quote-form" method="post" data-simple-contact>
+<h2 id="quote-heading">Request a free estimate</h2>
 <input type="hidden" name="services" id="submitted-services" value=""><input type="hidden" name="landing_page" value="/"><input type="hidden" name="calculator_estimate" id="landing-estimate-value"><input type="hidden" name="phone"><input type="hidden" name="zip"><input type="hidden" name="_subject" value="New Lakeland Elite estimate request"><input type="hidden" name="_next" value="https://lakelandelitepowerwashing.com/thank-you.html">
 <label class="form-honey" aria-hidden="true">Leave this empty<input name="_gotcha" tabindex="-1" autocomplete="off"></label><div hidden aria-hidden="true"><input type="checkbox" name="service" value="Pressure washing" tabindex="-1"><input type="checkbox" name="service" value="House washing" tabindex="-1"><input type="checkbox" name="service" value="Roof cleaning" tabindex="-1"><input type="checkbox" name="service" value="Driveway cleaning" tabindex="-1"><input type="checkbox" name="service" value="Gutter cleaning" tabindex="-1"><input type="checkbox" name="service" value="Property cleanup &amp; lawn care" tabindex="-1"><input type="checkbox" name="service" value="Help me decide" tabindex="-1"></div>
 <label>What can we help with?<select id="requested-service" name="requested_service"><option value="">Choose a service or use the calculator</option><option value="House washing">House washing</option><option value="Roof cleaning">Roof washing</option><option value="Driveway cleaning">Driveway cleaning</option><option value="Gutter cleaning">Gutter cleaning</option><option value="Property cleanup &amp; lawn care">Property cleanup &amp; lawn care</option><option value="Help me decide">Help me decide</option></select></label><label>Your name<input name="name" autocomplete="name" placeholder="First and last name" required maxlength="100"></label>
@@ -109,8 +207,25 @@
 <p id="quote-status" class="form-status" role="status" aria-live="polite"></p><div id="quote-fallback" class="form-fallback" hidden><a id="quote-email-fallback" href="mailto:rob@lakelandelitepowerwashing.com">Open your request in email</a><br>Or <a href="tel:+18633624188">call Rob</a> / <a href="sms:+18633624188">text Rob</a>.</div>
 <noscript><style>.submit-button{display:none}</style><p>To request a quote, <a href="tel:+18633624188">call</a> or <a href="sms:+18633624188">text (863) 362-4188</a>.</p></noscript></form>
 </section>
-<div class="business-hours-section"><section class="hours-card" id="hours" aria-labelledby="hours-heading"><div class="hours-heading"><h3 id="hours-heading">Business hours</h3><span>Eastern Time</span></div><p class="hours-status" data-hours-status aria-live="polite">Monday–Sunday: 8 AM–8 PM</p><p class="hours-next" data-hours-next>Open seven days a week.</p><div data-hours-week></div><p class="hours-note">Open every day, 8 AM–8 PM Eastern Time. Contact Rob to arrange your service.</p><noscript><p>Monday–Sunday: 8 AM–8 PM Eastern Time.</p></noscript></section></div>
-<section class="section faq-section" id="faq" aria-labelledby="faq-heading"><div><p class="eyebrow">A FEW THINGS YOU MIGHT BE WONDERING.</p><h2 id="faq-heading">Good questions.<br>Straight answers.</h2><p>Something else on your mind?<br><a href="tel:+18633624188">Give us a call.</a></p></div><div class="faq-list"><details><summary>How much does pressure washing cost?<span aria-hidden="true">+</span></summary><p>Every property is different. The area to be cleaned, its condition, and the services you need help determine the price. Request a free estimate with a few details about your job so we can give you a project-specific quote.</p></details><details><summary>Can I request more than one service?<span aria-hidden="true">+</span></summary><p>Yes. Add the services you need in the calculator, or describe them in your estimate request. You can ask about pressure washing, gutter cleaning, lawn care, and smaller cleanup jobs together.</p></details><details><summary>Do you work with businesses, too?<span aria-hidden="true">+</span></summary><p>Current service is residential only. House, roof and gutter cleaning is limited to one-story homes in the Lakeland service area.</p></details><details><summary>Is Lakeland Elite insured?<span aria-hidden="true">+</span></summary><p>Yes. Lakeland Elite carries general liability insurance. If your property manager needs documentation, ask for it when discussing your estimate.</p></details><details><summary>How often should I plan for exterior care?<span aria-hidden="true">+</span></summary><p>Cleaning frequency depends on your property’s trees, shade, buildup and surface materials. Describe what you are seeing and Rob can help you plan the next service.</p></details></div></section>
+<div class="business-hours-section">
+  <section class="hours-card" id="hours" aria-labelledby="hours-heading">
+    <h2 id="hours-heading">Business hours</h2>
+    <p class="hours-days">Monday–Sunday</p>
+    <p class="hours-time">8 AM–8 PM <span class="hours-zone">Eastern Time</span></p>
+    <details class="hours-more">
+      <summary>View daily hours</summary>
+      <p class="hours-status" data-hours-status aria-live="polite">Monday–Sunday: 8 AM–8 PM</p>
+      <p class="hours-next" data-hours-next>Open seven days a week.</p>
+      <div data-hours-week></div>
+    </details>
+  </section>
+</div>
+<section class="section faq-section" id="faq" aria-label="Frequently asked questions">
+  <details class="faq-disclosure">
+    <summary>Frequently asked questions <span class="faq-chevron" aria-hidden="true"></span></summary>
+    <div class="faq-list"><details><summary>How much does pressure washing cost?<span aria-hidden="true">+</span></summary><p>Every property is different. The area to be cleaned, its condition, and the services you need help determine the price. Request a free estimate with a few details about your job so we can give you a project-specific quote.</p></details><details><summary>Can I request more than one service?<span aria-hidden="true">+</span></summary><p>Yes. Add the services you need in the calculator, or describe them in your estimate request. You can ask about pressure washing, gutter cleaning, lawn care, and smaller cleanup jobs together.</p></details><details><summary>Do you work with businesses, too?<span aria-hidden="true">+</span></summary><p>Current service is residential only. House, roof and gutter cleaning is limited to one-story homes in the Lakeland service area.</p></details><details><summary>Is Lakeland Elite insured?<span aria-hidden="true">+</span></summary><p>Yes. Lakeland Elite carries general liability insurance. If your property manager needs documentation, ask for it when discussing your estimate.</p></details><details><summary>How often should I plan for exterior care?<span aria-hidden="true">+</span></summary><p>Cleaning frequency depends on your property’s trees, shade, buildup and surface materials. Describe what you are seeing and Rob can help you plan the next service.</p></details></div>
+  </details>
+</section>
 </main>
 <footer id="contact">
 <div class="footer-top"><a class="brand" href="#home" aria-label="Lakeland Elite home"><img class="brand-logo" src="/assets/lakeland-elite-logo-pure-white.png" alt="" width="1536" height="1536" loading="lazy"><span class="brand-name">LAKELAND ELITE<small>POWER WASHING & EXTERIOR CARE</small></span></a><p>More than just driveways.</p><a class="button button-blue" href="#quote">Get a free estimate <span aria-hidden="true">↗</span></a></div>
