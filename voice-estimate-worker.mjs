@@ -71,6 +71,15 @@ export default {
     if (!input || typeof input !== 'object' || Array.isArray(input)) {
       return json({ error: 'Enter a JSON object.' }, { status: 400 });
     }
-    return json(calculateEstimate(input));
+    // Grok's API Request tool supports string body fields but has no array type.
+    let { items } = input;
+    if (typeof items === 'string') {
+      try {
+        items = JSON.parse(items);
+      } catch {
+        return json(review);
+      }
+    }
+    return json(calculateEstimate({ items }));
   },
 };
