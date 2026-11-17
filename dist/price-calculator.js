@@ -1,21 +1,22 @@
 /* Pricing source: Residential Service Price Guide, September 25, 2026, Library version 3.
    Lawn tiers updated by owner direction September 29, 2026: $40 through 4,000 sq ft, +$10 per 2,000 sq ft.
    Larger-job bands approved October 19, 2026; original tiers preserved except owner-approved shingle and gutter reductions October 30, 2026.
+   Driveway, house and roof rates updated by owner direction November 17, 2026.
    Additive component. Does not send requests or change existing form delivery. */
 (() => {
  'use strict';
  const mobileHomeTiers = Object.freeze({
-  driveway:{label:'Mobile home driveway',limit:500,price:150},
-  house:{label:'Mobile home',limit:1600,price:250}
+  driveway:{label:'Mobile home driveway',limit:500,price:100},
+  house:{label:'Mobile home',limit:1600,price:225}
  });
  function mobileHomeNote(tier){
   const limit=tier.limit.toLocaleString('en-US');
   return money(tier.price)+' through '+limit+' sq ft. Standard rates apply above '+limit+' sq ft.';
  }
  const services = [
- {id:'driveway',name:'Driveway & walkway',label:'Concrete area to clean',unit:'sq ft',hint:'Measure length × width in feet. Add together the concrete areas you want cleaned.',limits:[700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800],prices:[200,215,230,245,260,275,290,305,320,335,350,365],sample:700,group:'Pressure washing',note:'Concrete cleaning. Extra patios, curbs, oil treatment and heavy staining are quoted separately.'},
- {id:'house',name:'House washing',label:'One-story home size',unit:'sq ft',hint:'Use your home’s listed square footage, not the lot size.',limits:[1600,2000,2500,3000],prices:[300,325,375,425],sample:1600,group:'House & roof cleaning',note:'Exterior wall wash. Porches, heavy buildup, delicate surfaces and unusual layouts may change the quote.'},
- {id:'roof',name:'Roof washing',label:'One-story home size',unit:'sq ft',hint:'Use your home’s listed square footage for this starting estimate. Rob will confirm the actual roof area.',limits:[1600,2000,2500,3000],prices:[350,400,450,500],sample:1600,group:'House & roof cleaning',note:'Accessible one-story roof with ordinary buildup. Roof material, pitch, actual roof area, condition and access affect the final quote.'},
+ {id:'driveway',name:'Driveway & walkway',label:'Concrete area to clean',unit:'sq ft',hint:'Measure length × width in feet. Add together the concrete areas you want cleaned.',limits:[700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800],prices:[150,165,180,195,220,245,270,295,320,345,370,395],sample:700,group:'Pressure washing',note:'Concrete cleaning. Extra patios, curbs, oil treatment and heavy staining are quoted separately.'},
+ {id:'house',name:'House washing',label:'One-story home size',unit:'sq ft',hint:'Use your home’s listed square footage, not the lot size.',limits:[1600,2000,2500,3000],prices:[275,300,350,400],sample:1600,group:'House & roof cleaning',note:'Exterior wall wash. Porches, heavy buildup, delicate surfaces and unusual layouts may change the quote.'},
+ {id:'roof',name:'Roof washing',label:'One-story home size',unit:'sq ft',hint:'Use your home’s listed square footage for this starting estimate. Rob will confirm the actual roof area.',limits:[1600,2000,2500,3000],prices:[375,425,475,525],sample:1600,group:'House & roof cleaning',note:'Accessible one-story roof with ordinary buildup. Roof material, pitch, actual roof area, condition and access affect the final quote.'},
  {id:'gutter',name:'Gutter cleaning',label:'Total gutter length',unit:'linear ft',hint:'Add the lengths of the gutter runs that need interior cleaning.',limits:[120],prices:[150],sample:120,group:'Gutter cleaning',note:'Accessible one-story gutter interiors with ordinary debris. Guards, blocked downspouts and heavy debris may cost more.'},
  {id:'lawn',name:'Lawn cutting',label:'Lawn area to mow',unit:'sq ft',hint:'Include front, back and side lawns. Count grass only—not house square footage, driveway or garden beds.',limits:[4000,6000,8000,10000,12000,14000,16000],prices:[40,50,60,70,80,90,100],sample:4000,group:'Property cleanup & lawn care',suffix:' / visit',note:'Includes mowing, routine edging, string trimming and blowing. Overgrown first cuts and difficult terrain cost more.'},
  {id:'mulch',name:'Mulch laying',label:'Garden bed area',unit:'sq ft',hint:'Measure the beds to be mulched at about 2 inches deep.',limits:[200,400,600,800],prices:[120,200,290,380],sample:200,group:'Property cleanup & lawn care',suffix:' labor only',note:'Labor only. Mulch, delivery, bed preparation, weeding, edging and disposal are quoted separately.'},
@@ -24,7 +25,7 @@
  // Beyond the original tiers, charge each started band; round the cumulative
  // extended total once, never each individual increment (except exact lawn cents).
  const extensions = Object.freeze({
-  driveway:{step:100,amount:20,round:5},
+  driveway:{step:100,amount:25,round:5},
   house:{step:250,amount:25,round:5},
   roof:{step:250,amount:37.5,round:5},
   gutter:{step:20,amount:15,round:5},
@@ -36,7 +37,7 @@
   const extension=extensions[service.id];
   const limit=service.limits[service.limits.length-1];
   if(service.id==='driveway') {
-   service.hint += ' Estimates increase every 100 sq ft above 700 sq ft.';
+   service.hint += ' Estimates increase $15 per 100 sq ft tier above 700 sq ft through 1,000 sq ft, then $25 per tier.';
    continue;
   }
   if(service.id==='gutter') {
@@ -46,9 +47,9 @@
   service.hint += ' Above '+limit.toLocaleString('en-US')+' '+service.unit+', estimates increase in '+extension.step+' '+service.unit+' bands.';
  }
  const roofMaterials = Object.freeze({
-  shingle:{name:'Asphalt shingles',prices:[350,400,450,500],extension:{step:250,amount:25,round:5}},
-  metal:{name:'Metal',prices:[400,450,500,550],extension:{step:250,amount:25,round:5}},
-  tile:{name:'Concrete / clay tile',prices:[450,500,550,600],extension:{step:250,amount:25,round:5}},
+  shingle:{name:'Asphalt shingles',prices:[375,425,475,525],extension:{step:250,amount:25,round:5}},
+  metal:{name:'Metal',prices:[425,475,525,575],extension:{step:250,amount:25,round:5}},
+  tile:{name:'Concrete / clay tile',prices:[475,525,575,625],extension:{step:250,amount:25,round:5}},
   other:{name:'Other / unsure',prices:null}
  });
  function roofMaterialName(material){return roofMaterials[material]?.name||'Not selected';}
